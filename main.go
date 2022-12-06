@@ -42,5 +42,5 @@ func printProcesses(processList []Process) {
 
 func main() {
 	allProcesses := generateProcesses()
-	FirstComeFirstServe(allProcesses)
+	FirstComeFirstServe(allProcesses, 3)
 }

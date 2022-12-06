@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"sort"
 	"time"
 )
 
-func FirstComeFirstServe(processes []Process) {
+func FirstComeFirstServe(processes []Process, totalTime int) {
 	fmt.Println("unsorted processes slice:")
 	fmt.Printf("%v\n", processes)
 
@@ -20,8 +21,16 @@ func FirstComeFirstServe(processes []Process) {
 	fmt.Println("sorted processes slice:")
 	fmt.Printf("%v\n", processes)
 
+	time.AfterFunc(time.Duration(totalTime)*time.Second, func() {
+		fmt.Println("hellooooo")
+		os.Exit(0)
+	})
+
 	start := time.Now()
+
+	fmt.Println("about to start with processes")
 	for i := 0; i < len(processes); i++ {
+		fmt.Println("starting process ", i)
 		time.Sleep(time.Duration(processes[i].duration) * time.Second)
 	}
 
