@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"sort"
 	"strconv"
 	"time"
 )
@@ -10,6 +11,7 @@ import (
 type Process struct {
 	arrivalTime int
 	duration    int
+	waitingTime time.Duration
 }
 
 func generateProcesses() []Process {
@@ -32,6 +34,11 @@ func generateProcesses() []Process {
 
 	// printProcesses(allProcesses)
 
+	// sorts the list of processes by arrival time
+	sort.Slice(allProcesses, func(i, j int) bool {
+		return allProcesses[i].arrivalTime < allProcesses[j].arrivalTime
+	})
+
 	return allProcesses
 }
 
@@ -44,6 +51,7 @@ func printProcesses(processList []Process) {
 func main() {
 	start := time.Now()
 	allProcesses := generateProcesses()
+
 	FirstComeFirstServe(allProcesses, 8*time.Second)
 	fmt.Println("STOPPED")
 	elapsed := time.Since(start)
