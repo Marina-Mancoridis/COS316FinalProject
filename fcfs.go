@@ -7,8 +7,8 @@ import (
 )
 
 func FirstComeFirstServe(processes []Process, totalTime time.Duration) {
-	fmt.Println("unsorted processes slice:")
-	fmt.Printf("%v\n", processes)
+	// fmt.Println("unsorted processes slice:")
+	// fmt.Printf("%v\n", processes)
 
 	// sorts the list of processes by arrival time
 	sort.Slice(processes, func(i, j int) bool {
@@ -17,10 +17,10 @@ func FirstComeFirstServe(processes []Process, totalTime time.Duration) {
 
 	// start timing now, because CPU wouldn't have to sort processes by
 	// their arrival time
-	fmt.Println("sorted processes slice:")
-	fmt.Printf("%v\n", processes)
+	// fmt.Println("sorted processes slice:")
+	// fmt.Printf("%v\n", processes)
 
-	var howManyGotThrough int = 0
+	var processesCompleted float64 = 0
 	i := 0
 
 	start := time.Now()
@@ -28,7 +28,7 @@ func FirstComeFirstServe(processes []Process, totalTime time.Duration) {
 	for time.Since(start) < (totalTime) {
 		fmt.Println("starting process ", i)
 		time.Sleep(time.Duration(processes[i].duration) * time.Second)
-		howManyGotThrough = howManyGotThrough + 1
+		processesCompleted = processesCompleted + 1
 
 		if i >= len(processes) {
 			break
@@ -40,7 +40,11 @@ func FirstComeFirstServe(processes []Process, totalTime time.Duration) {
 	elapsed := time.Since(start)
 	fmt.Println("elapsed time: ", elapsed)
 
-	// calculate latency (for what's done so far) and bandwith
-	fmt.Println("got through this many: ", howManyGotThrough)
+	// calculate latency (for what's done so far) and bandwidth
+	fmt.Println("processes completed: ", processesCompleted)
+
+	// converts processes/nanosecond to processes/second
+	throughput := float64(processesCompleted) / float64(totalTime) * 1000000000
+	fmt.Println("throughput: ", throughput)
 
 }

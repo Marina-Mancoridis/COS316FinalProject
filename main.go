@@ -44,8 +44,6 @@ func printProcesses(processList []Process) {
 func main() {
 	start := time.Now()
 	allProcesses := generateProcesses()
-	// ctx, _ := context.WithTimeout(context.Background(), 4*time.Second)
-	// FirstComeFirstServe(allProcesses, 4*time.Second)
 	FirstComeFirstServe(allProcesses, 8*time.Second)
 	fmt.Println("STOPPED")
 	elapsed := time.Since(start)
