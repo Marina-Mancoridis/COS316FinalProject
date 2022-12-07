@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"strconv"
+	"time"
 )
 
 // A process
@@ -29,7 +30,7 @@ func generateProcesses() []Process {
 	allProcesses = append(allProcesses, *p2)
 	allProcesses = append(allProcesses, *p3)
 
-	printProcesses(allProcesses)
+	// printProcesses(allProcesses)
 
 	return allProcesses
 }
@@ -41,6 +42,11 @@ func printProcesses(processList []Process) {
 }
 
 func main() {
+	start := time.Now()
 	allProcesses := generateProcesses()
-	FirstComeFirstServe(allProcesses, 3)
+	// ctx, _ := context.WithTimeout(context.Background(), 4*time.Second)
+	FirstComeFirstServe(allProcesses, 4*time.Second)
+	fmt.Println("STOPPED")
+	elapsed := time.Since(start)
+	fmt.Println("TOTAL ELAPSED TIME OF MAIN FN: ", elapsed)
 }

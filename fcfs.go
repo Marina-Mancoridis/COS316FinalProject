@@ -2,12 +2,11 @@ package main
 
 import (
 	"fmt"
-	"os"
 	"sort"
 	"time"
 )
 
-func FirstComeFirstServe(processes []Process, totalTime int) {
+func FirstComeFirstServe(processes []Process, totalTime time.Duration) {
 	fmt.Println("unsorted processes slice:")
 	fmt.Printf("%v\n", processes)
 
@@ -21,20 +20,21 @@ func FirstComeFirstServe(processes []Process, totalTime int) {
 	fmt.Println("sorted processes slice:")
 	fmt.Printf("%v\n", processes)
 
-	time.AfterFunc(time.Duration(totalTime)*time.Second, func() {
-		fmt.Println("hellooooo")
-		os.Exit(0)
-	})
+	var howManyGotThrough int = 0
 
-	start := time.Now()
+	for start := time.Now(); time.Since(start) < (totalTime); {
+		for i := 0; i < len(processes); i++ {
+			fmt.Println("starting process ", i)
+			time.Sleep(time.Duration(processes[i].duration) * time.Second)
+			howManyGotThrough = howManyGotThrough + 1
+		}
 
-	fmt.Println("about to start with processes")
-	for i := 0; i < len(processes); i++ {
-		fmt.Println("starting process ", i)
-		time.Sleep(time.Duration(processes[i].duration) * time.Second)
+		elapsed := time.Since(start)
+
+		fmt.Println("elapsed time: ", elapsed)
 	}
 
-	elapsed := time.Since(start)
+	// calculate latency (for what's done so far) and bandwith
+	fmt.Println("got through this many: ", howManyGotThrough)
 
-	fmt.Println("elapsed time: ", elapsed)
 }
