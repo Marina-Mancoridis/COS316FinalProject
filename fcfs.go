@@ -21,18 +21,24 @@ func FirstComeFirstServe(processes []Process, totalTime time.Duration) {
 	fmt.Printf("%v\n", processes)
 
 	var howManyGotThrough int = 0
+	i := 0
 
-	for start := time.Now(); time.Since(start) < (totalTime); {
-		for i := 0; i < len(processes); i++ {
-			fmt.Println("starting process ", i)
-			time.Sleep(time.Duration(processes[i].duration) * time.Second)
-			howManyGotThrough = howManyGotThrough + 1
+	start := time.Now()
+
+	for time.Since(start) < (totalTime) {
+		fmt.Println("starting process ", i)
+		time.Sleep(time.Duration(processes[i].duration) * time.Second)
+		howManyGotThrough = howManyGotThrough + 1
+
+		if i >= len(processes) {
+			break
 		}
 
-		elapsed := time.Since(start)
-
-		fmt.Println("elapsed time: ", elapsed)
+		i++
 	}
+
+	elapsed := time.Since(start)
+	fmt.Println("elapsed time: ", elapsed)
 
 	// calculate latency (for what's done so far) and bandwith
 	fmt.Println("got through this many: ", howManyGotThrough)
