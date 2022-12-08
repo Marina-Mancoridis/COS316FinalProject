@@ -15,8 +15,6 @@ type Process struct {
 	priority       int
 }
 
-
-
 // creates a workload of processes (manually catered, for now)
 func generateProcesses() []Process {
 	var processes []Process
@@ -51,21 +49,18 @@ func generateProcesses() []Process {
 	return processes
 }
 
-
 // prints a workload of processes in a readable way
 func printProcesses(processList []Process) {
 	for i := 0; i < len(processList); i++ {
-		fmt.Println("(arrivalTime: " + 
-		strconv.Itoa(processList[i].arrivalTime) + ", duration: " + 
-		strconv.Itoa(processList[i].duration) + ", priority: " + 
-		strconv.Itoa(processList[i].priority) + ")")
+		fmt.Println("(arrivalTime: " +
+			strconv.Itoa(processList[i].arrivalTime) + ", duration: " +
+			strconv.Itoa(processList[i].duration) + ", priority: " +
+			strconv.Itoa(processList[i].priority) + ")")
 	}
 }
 
-
-
 // runs a workload of processes on a CPU with different scheduling
-// algorithms, outputting statistics of how the CPU runs under each 
+// algorithms, outputting statistics of how the CPU runs under each
 // algorithm
 func main() {
 	processes := generateProcesses()
