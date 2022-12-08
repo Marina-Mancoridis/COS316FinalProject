@@ -7,7 +7,7 @@ import (
 )
 
 // A process
-type MyProcess struct {
+type Process struct {
 	arrivalTime    int
 	duration       int
 	waitingTime    int
@@ -16,11 +16,11 @@ type MyProcess struct {
 	priority       int
 }
 
-func generateEqualDistributionProcesses(numberOfProcesses int) []MyProcess {
-	var processes []MyProcess
+func generateEqualDistributionProcesses(numberOfProcesses int) []Process {
+	var processes []Process
 
 	for i := 0; i < numberOfProcesses; i++ {
-		p := new(MyProcess)
+		p := new(Process)
 		p.arrivalTime = rand.Intn(100)
 		p.duration = 1
 		p.waitingTime = 0
@@ -35,7 +35,7 @@ func generateEqualDistributionProcesses(numberOfProcesses int) []MyProcess {
 }
 
 // prints a workload of processes in a readable way
-func printMyProcesses(processList []Process) {
+func printProcesses(processList []Process) {
 	for i := 0; i < len(processList); i++ {
 		fmt.Println("(arrivalTime: " +
 			strconv.Itoa(processList[i].arrivalTime) + ", duration: " +
