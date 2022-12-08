@@ -4,7 +4,10 @@ package main
 // algorithms, outputting statistics of how the CPU runs under each
 // algorithm
 func main() {
-	generateEqualDistributionProcesses(1000)
+	processes := generateToyProcesses()
+	printProcesses(processes)
+	// processes := generateEqualDistributionProcesses(5)
+	// printProcesses(processes)
 	// FirstComeFirstServe(processes, 7)
 	// ShortestJobFirst(processes, 5)
 	// Priority(processes, 5)
