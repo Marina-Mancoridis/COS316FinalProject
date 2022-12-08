@@ -9,10 +9,11 @@ import (
 
 // A process
 type Process struct {
-	arrivalTime int
-	duration    int
-	waitingTime time.Duration
-	completed   bool
+	arrivalTime    int
+	duration       int
+	waitingTime    time.Duration
+	turnaroundTime time.Duration
+	completed      bool
 }
 
 func generateProcesses() []Process {
@@ -21,18 +22,21 @@ func generateProcesses() []Process {
 	p1.arrivalTime = 3
 	p1.duration = 5
 	p1.waitingTime = 0 * time.Second
+	p1.turnaroundTime = 0 * time.Second
 	p1.completed = false
 
 	p2 := new(Process)
 	p2.arrivalTime = 2
 	p2.duration = 5
 	p2.waitingTime = 0 * time.Second
+	p2.turnaroundTime = 0 * time.Second
 	p2.completed = false
 
 	p3 := new(Process)
 	p3.arrivalTime = 1
 	p3.duration = 5
 	p3.waitingTime = 0 * time.Second
+	p3.turnaroundTime = 0 * time.Second
 	p3.completed = false
 
 	allProcesses = append(allProcesses, *p1)
@@ -56,11 +60,6 @@ func printProcesses(processList []Process) {
 }
 
 func main() {
-	start := time.Now()
 	allProcesses := generateProcesses()
-
 	FirstComeFirstServe(allProcesses, 8*time.Second)
-	fmt.Println("STOPPED")
-	elapsed := time.Since(start)
-	fmt.Println("TOTAL ELAPSED TIME OF MAIN FN: ", elapsed)
 }

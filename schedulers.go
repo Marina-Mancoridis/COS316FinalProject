@@ -21,6 +21,7 @@ func FirstComeFirstServe(processes []Process, totalTime time.Duration) {
 		
 		processesCompleted = processesCompleted + 1
 		processes[i].completed = true
+		processes[i].turnaroundTime += time.Since(start)
 
 		if i >= len(processes) {
 			break
@@ -37,20 +38,23 @@ func FirstComeFirstServe(processes []Process, totalTime time.Duration) {
 	// throughput
 	// converts processes/nanosecond to processes/second
 	throughput := float64(processesCompleted) / float64(totalTime) * 1000000000
-	fmt.Println("throughput: ", throughput)
+	fmt.Println("throughput (processes/second): ", throughput)
 
-	// total time waited for processed processes
+	// total time variables for processed processes
 	var totalWaitingTime = time.Duration(0)
+	var totalTurnaroundTime = time.Duration(0)
 	for i := 0; i < len(processes); i++ {
 		if processes[i].completed == true {
 			totalWaitingTime += processes[i].waitingTime
-			fmt.Println("process ", i)
-			fmt.Println("process waited: ", processes[i].waitingTime)
-			fmt.Println()
+			totalTurnaroundTime += processes[i].turnaroundTime
 		}
 	}
 
 	// average waiting time per process, in seconds/process
 	var averageWaitingTime = float64(totalWaitingTime) / (processesCompleted * 1000000000)
-	fmt.Println("average waiting time: ", averageWaitingTime)
+	fmt.Println("average waiting time (seconds/process): ", averageWaitingTime)
+
+	// average turnaround time per process, in seconds/process
+	var averageTurnaroundTime = float64(totalTurnaroundTime) / (processesCompleted * 1000000000)
+	fmt.Println("average turnaround time (seconds/process): ", averageTurnaroundTime)
 }
