@@ -16,6 +16,9 @@ type Process struct {
 	completed      bool
 }
 
+
+
+// creates a workload of processes (manually catered, for now)
 func generateProcesses() []Process {
 	var allProcesses []Process
 	p1 := new(Process)
@@ -53,12 +56,19 @@ func generateProcesses() []Process {
 	return allProcesses
 }
 
+
+// prints a workload of processes in a readable way
 func printProcesses(processList []Process) {
 	for i := 0; i < len(processList); i++ {
 		fmt.Println("(arrivalTime: " + strconv.Itoa(processList[i].arrivalTime) + ", duration: " + strconv.Itoa(processList[i].duration) + ")")
 	}
 }
 
+
+
+// runs a workload of processes on a CPU with different scheduling
+// algorithms, outputting statistics of how the CPU runs under each 
+// algorithm
 func main() {
 	allProcesses := generateProcesses()
 	FirstComeFirstServe(allProcesses, 8*time.Second)
