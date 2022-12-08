@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 	"sort"
+	"container/list"
 )
 
 // generates throughput, average waiting time, and average turnaround
@@ -155,5 +156,54 @@ func Priority(processes []Process, totalTime time.Duration) {
 	fmt.Println("\n")
 
 	// outputs statistics for priority scheduling algorithm
+	GenerateStatistics(elapsedTime, processes)
+}
+
+
+
+// runs the list of processes for a maximum of totalTime seconds in 
+// accordance to the round robin scheduling algorithm
+func RoundRobin(processes []Process, totalTime time.Duration, timeQuantum time.Duration) {
+	fmt.Println("\n\n                         Running Round Robin Scheduling Algorithm...")
+
+	// sorts the list of processes by arrival time
+	sort.Slice(processes, func(i, j int) bool {
+		return processes[i].arrivalTime < processes[j].arrivalTime
+	})
+
+	fmt.Println("processes...")
+	printProcesses(processes)
+
+	// puts processes into a readyQueue
+	readyQueue := list.New()
+	for i := 0; i < len(processes); i++ {
+		readyQueue.PushBack(processes[i])
+	}
+
+
+	i := 0
+	start := time.Now()
+
+	// TODO: needs to "cut" the sleep of a process... we don't know how 
+	// to do that still, and it's a problem we've been running into
+	for time.Since(start) < (totalTime) {
+		fmt.Println("starting process ", i)
+
+		processes[i].waitingTime += time.Since(start)
+
+		// TODO: needs to use time quantum and potentially the queue!!!
+		time.Sleep(time.Duration(processes[i].duration) * time.Second)
+		processes[i].completed = true
+		processes[i].turnaroundTime += time.Since(start)
+
+		if i >= len(processes) {
+			break
+		}
+		i++
+	}
+	elapsedTime := time.Since(start)
+	fmt.Println("\n")
+
+	// outputs statistics for round robin scheduling algorithm
 	GenerateStatistics(elapsedTime, processes)
 }
