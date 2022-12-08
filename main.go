@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"strconv"
-	"time"
 )
 
 // A process
@@ -70,8 +69,8 @@ func printProcesses(processList []Process) {
 // algorithm
 func main() {
 	processes := generateProcesses()
-	FirstComeFirstServe(processes, 5)
-	ShortestJobFirst(processes, 5)
-	Priority(processes, 5)
-	RoundRobin(processes, 5, 1)
+	FirstComeFirstServe(processes, 7)
+	// ShortestJobFirst(processes, 5)
+	// Priority(processes, 5)
+	// RoundRobin(processes, 5, 1)
 }
