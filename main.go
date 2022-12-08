@@ -20,40 +20,40 @@ type Process struct {
 
 // creates a workload of processes (manually catered, for now)
 func generateProcesses() []Process {
-	var allProcesses []Process
+	var processes []Process
 	p1 := new(Process)
 	p1.arrivalTime = 3
-	p1.duration = 5
+	p1.duration = 1
 	p1.waitingTime = 0 * time.Second
 	p1.turnaroundTime = 0 * time.Second
 	p1.completed = false
 
 	p2 := new(Process)
 	p2.arrivalTime = 2
-	p2.duration = 5
+	p2.duration = 1
 	p2.waitingTime = 0 * time.Second
 	p2.turnaroundTime = 0 * time.Second
 	p2.completed = false
 
 	p3 := new(Process)
 	p3.arrivalTime = 1
-	p3.duration = 5
+	p3.duration = 6
 	p3.waitingTime = 0 * time.Second
 	p3.turnaroundTime = 0 * time.Second
 	p3.completed = false
 
-	allProcesses = append(allProcesses, *p1)
-	allProcesses = append(allProcesses, *p2)
-	allProcesses = append(allProcesses, *p3)
+	processes = append(processes, *p1)
+	processes = append(processes, *p2)
+	processes = append(processes, *p3)
 
-	// printProcesses(allProcesses)
+	// printProcesses(processes)
 
 	// sorts the list of processes by arrival time
-	sort.Slice(allProcesses, func(i, j int) bool {
-		return allProcesses[i].arrivalTime < allProcesses[j].arrivalTime
+	sort.Slice(processes, func(i, j int) bool {
+		return processes[i].arrivalTime < processes[j].arrivalTime
 	})
 
-	return allProcesses
+	return processes
 }
 
 
@@ -70,6 +70,9 @@ func printProcesses(processList []Process) {
 // algorithms, outputting statistics of how the CPU runs under each 
 // algorithm
 func main() {
-	allProcesses := generateProcesses()
-	FirstComeFirstServe(allProcesses, 8*time.Second)
+	processes := generateProcesses()
+	FirstComeFirstServe(processes, 5*time.Second)
+
+	processesAgain := generateProcesses()
+	ShortestJobFirst(processesAgain, 5*time.Second)
 }
