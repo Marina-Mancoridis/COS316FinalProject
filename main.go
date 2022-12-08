@@ -10,8 +10,8 @@ import (
 type Process struct {
 	arrivalTime    int
 	duration       int
-	waitingTime    time.Duration
-	turnaroundTime time.Duration
+	waitingTime    int
+	turnaroundTime int
 	completed      bool
 	priority       int
 }
@@ -24,24 +24,24 @@ func generateProcesses() []Process {
 	p1 := new(Process)
 	p1.arrivalTime = 3
 	p1.duration = 1
-	p1.waitingTime = 0 * time.Second
-	p1.turnaroundTime = 0 * time.Second
+	p1.waitingTime = 0
+	p1.turnaroundTime = 0
 	p1.completed = false
 	p1.priority = 2
 
 	p2 := new(Process)
 	p2.arrivalTime = 2
 	p2.duration = 1
-	p2.waitingTime = 0 * time.Second
-	p2.turnaroundTime = 0 * time.Second
+	p2.waitingTime = 0
+	p2.turnaroundTime = 0
 	p2.completed = false
 	p2.priority = 3
 
 	p3 := new(Process)
 	p3.arrivalTime = 1
 	p3.duration = 6
-	p3.waitingTime = 0 * time.Second
-	p3.turnaroundTime = 0 * time.Second
+	p3.waitingTime = 0
+	p3.turnaroundTime = 0
 	p3.completed = false
 	p3.priority = 1
 
@@ -70,8 +70,8 @@ func printProcesses(processList []Process) {
 // algorithm
 func main() {
 	processes := generateProcesses()
-	FirstComeFirstServe(processes, 5*time.Second)
-	ShortestJobFirst(processes, 5*time.Second)
-	Priority(processes, 5*time.Second)
-	RoundRobin(processes, 5*time.Second, 1*time.Second)
+	FirstComeFirstServe(processes, 5)
+	ShortestJobFirst(processes, 5)
+	Priority(processes, 5)
+	RoundRobin(processes, 5, 1)
 }

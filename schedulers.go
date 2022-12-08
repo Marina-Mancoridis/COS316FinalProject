@@ -143,6 +143,9 @@ func Priority(processes []Process, totalTime time.Duration) {
 		fmt.Println("starting process ", i)
 
 		processes[i].waitingTime += time.Since(start)
+		// before sleeping, check if possible to sleep for that long, and
+		// if not, we break from the for loop
+		
 		time.Sleep(time.Duration(processes[i].duration) * time.Second)
 		processes[i].completed = true
 		processes[i].turnaroundTime += time.Since(start)
@@ -163,6 +166,7 @@ func Priority(processes []Process, totalTime time.Duration) {
 
 // runs the list of processes for a maximum of totalTime seconds in 
 // accordance to the round robin scheduling algorithm
+// sleep for the time quantum amount of time, then subtract
 func RoundRobin(processes []Process, totalTime time.Duration, timeQuantum time.Duration) {
 	fmt.Println("\n\n                         Running Round Robin Scheduling Algorithm...")
 
