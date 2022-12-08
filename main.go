@@ -63,9 +63,8 @@ func printProcesses(processList []Process) {
 // algorithms, outputting statistics of how the CPU runs under each
 // algorithm
 func main() {
-	processes := generateEqualDistributionProcesses()
-	printMyProcesses(processes)
-	// FirstComeFirstServe(processes, 5)
+	processes := generateProcesses()
+	FirstComeFirstServe(processes, 7)
 	// ShortestJobFirst(processes, 5)
 	// Priority(processes, 5)
 	// RoundRobin(processes, 5, 1)
