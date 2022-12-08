@@ -105,13 +105,13 @@ func ShortestJobFirst(processes []Process, totalTime int) {
 
 	for currentTime < totalTime {
 		fmt.Println("starting process ", i)
-		processes[i].waitingTime += currentTime
 	
 		// if the process can be executed on time
 		if (currentTime + processes[i].duration <= totalTime) {
+			processes[i].waitingTime += currentTime
+			currentTime += processes[i].duration
 			processes[i].completed = true
 			processes[i].turnaroundTime += currentTime
-			currentTime += processes[i].duration
 		} else {
 			break
 		}
