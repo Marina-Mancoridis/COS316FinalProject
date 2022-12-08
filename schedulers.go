@@ -63,15 +63,16 @@ func FirstComeFirstServe(processes []Process, totalTime int) {
 
 	for currentTime < (totalTime) {
 		fmt.Println("starting process ", i)
-
 		processes[i].waitingTime += currentTime
 	
 		// if the process can be executed on time
 		if (currentTime + processes[i].duration <= totalTime) {
 			processes[i].completed = true
 			processes[i].turnaroundTime += currentTime
+			currentTime += processes[i].duration
+		} else {
+			break
 		}
-		currentTime += processes[i].duration
 		
 		if i >= len(processes) {
 			break
@@ -86,41 +87,45 @@ func FirstComeFirstServe(processes []Process, totalTime int) {
 
 
 
-// // runs the list of processes for a maximum of totalTime seconds in 
-// // accordance to the shortest job first scheduling algorithm
-// func ShortestJobFirst(processes []Process, totalTime time.Duration) {
-// 	fmt.Println("\n\n                         Running Shortest Job First Scheduling Algorithm...")
+// runs the list of processes for a maximum of totalTime seconds in 
+// accordance to the shortest job first scheduling algorithm
+func ShortestJobFirst(processes []Process, totalTime int) {
+	fmt.Println("\n\n                         Running Shortest Job First Scheduling Algorithm...")
 
-// 	// sorts the list of processes by duration
-// 	sort.Slice(processes, func(i, j int) bool {
-// 		return processes[i].duration < processes[j].duration
-// 	})
+	// sorts the list of processes by duration
+	sort.Slice(processes, func(i, j int) bool {
+		return processes[i].duration < processes[j].duration
+	})
 
-// 	fmt.Println("processes...")
-// 	printProcesses(processes)
+	fmt.Println("processes...")
+	printProcesses(processes)
 
-// 	i := 0
-// 	start := time.Now()
+	i := 0
+	currentTime := 0
 
-// 	for time.Since(start) < (totalTime) {
-// 		fmt.Println("starting process ", i)
+	for currentTime < totalTime {
+		fmt.Println("starting process ", i)
+		processes[i].waitingTime += currentTime
+	
+		// if the process can be executed on time
+		if (currentTime + processes[i].duration <= totalTime) {
+			processes[i].completed = true
+			processes[i].turnaroundTime += currentTime
+			currentTime += processes[i].duration
+		} else {
+			break
+		}
+		
+		if i >= len(processes) {
+			break
+		}
+		i++
+	}
+	fmt.Println("\n")
 
-// 		processes[i].waitingTime += time.Since(start)
-// 		time.Sleep(time.Duration(processes[i].duration) * time.Second)
-// 		processes[i].completed = true
-// 		processes[i].turnaroundTime += time.Since(start)
-
-// 		if i >= len(processes) {
-// 			break
-// 		}
-// 		i++
-// 	}
-// 	elapsedTime := time.Since(start)
-// 	fmt.Println("\n")
-
-// 	// outputs statistics for shortest job first scheduling algorithm
-// 	GenerateStatistics(elapsedTime, processes)
-// }
+	// outputs statistics for shortest job first scheduling algorithm
+	GenerateStatistics(currentTime, processes)
+}
 
 
 

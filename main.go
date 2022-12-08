@@ -69,8 +69,8 @@ func printProcesses(processList []Process) {
 // algorithm
 func main() {
 	processes := generateProcesses()
-	FirstComeFirstServe(processes, 7)
-	// ShortestJobFirst(processes, 5)
+	// FirstComeFirstServe(processes, 7)
+	ShortestJobFirst(processes, 7)
 	// Priority(processes, 5)
 	// RoundRobin(processes, 5, 1)
 }
