@@ -13,8 +13,14 @@ func FirstComeFirstServe(processes []Process, totalTime time.Duration) {
 
 	for time.Since(start) < (totalTime) {
 		fmt.Println("starting process ", i)
+
+		// in fcfs, you wait as long as it takes to start your process
+		processes[i].waitingTime += time.Since(start)
+
 		time.Sleep(time.Duration(processes[i].duration) * time.Second)
+		
 		processesCompleted = processesCompleted + 1
+		processes[i].completed = true
 
 		if i >= len(processes) {
 			break
@@ -26,7 +32,6 @@ func FirstComeFirstServe(processes []Process, totalTime time.Duration) {
 	elapsed := time.Since(start)
 	fmt.Println("elapsed time: ", elapsed)
 
-	// calculate latency (for what's done so far) and throughput
 	fmt.Println("processes completed: ", processesCompleted)
 
 	// throughput
@@ -34,6 +39,18 @@ func FirstComeFirstServe(processes []Process, totalTime time.Duration) {
 	throughput := float64(processesCompleted) / float64(totalTime) * 1000000000
 	fmt.Println("throughput: ", throughput)
 
-	// latency
+	// total time waited for processed processes
+	var totalWaitingTime = time.Duration(0)
+	for i := 0; i < len(processes); i++ {
+		if processes[i].completed == true {
+			totalWaitingTime += processes[i].waitingTime
+			fmt.Println("process ", i)
+			fmt.Println("process waited: ", processes[i].waitingTime)
+			fmt.Println()
+		}
+	}
 
+	// average waiting time per process, in seconds/process
+	var averageWaitingTime = float64(totalWaitingTime) / (processesCompleted * 1000000000)
+	fmt.Println("average waiting time: ", averageWaitingTime)
 }
