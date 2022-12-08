@@ -70,8 +70,8 @@ func printProcesses(processList []Process) {
 // algorithm
 func main() {
 	processes := generateProcesses()
-	// FirstComeFirstServe(processes, 5*time.Second)
-	// ShortestJobFirst(processes, 5*time.Second)
-	// Priority(processes, 5*time.Second)
+	FirstComeFirstServe(processes, 5*time.Second)
+	ShortestJobFirst(processes, 5*time.Second)
+	Priority(processes, 5*time.Second)
 	RoundRobin(processes, 5*time.Second, 1*time.Second)
 }
