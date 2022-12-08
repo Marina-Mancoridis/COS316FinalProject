@@ -48,7 +48,12 @@ func GenerateStatistics(elapsedTime time.Duration, processes []Process) {
 // runs the list of processes for a maximum of totalTime seconds in 
 // accordance to the first come first serve scheduling algorithm
 func FirstComeFirstServe(processes []Process, totalTime time.Duration) {
-	fmt.Println("\n\n                         Running First Come First Serve Algorithm...")
+	fmt.Println("\n\n                         Running First Come First Serve Scheduling Algorithm...")
+
+	// sorts the list of processes by arrival time
+	sort.Slice(processes, func(i, j int) bool {
+		return processes[i].arrivalTime < processes[j].arrivalTime
+	})
 	
 	fmt.Println("processes...")
 	printProcesses(processes)
@@ -72,7 +77,7 @@ func FirstComeFirstServe(processes []Process, totalTime time.Duration) {
 	elapsedTime := time.Since(start)
 	fmt.Println("\n")
 
-	// outputs statistics for first come first serve algorithm
+	// outputs statistics for first come first serve scheduling algorithm
 	GenerateStatistics(elapsedTime, processes)
 }
 
@@ -81,7 +86,7 @@ func FirstComeFirstServe(processes []Process, totalTime time.Duration) {
 // runs the list of processes for a maximum of totalTime seconds in 
 // accordance to the shortest job first scheduling algorithm
 func ShortestJobFirst(processes []Process, totalTime time.Duration) {
-	fmt.Println("\n\n                         Running Shortest Job First Algorithm...")
+	fmt.Println("\n\n                         Running Shortest Job First Scheduling Algorithm...")
 
 	// sorts the list of processes by duration
 	sort.Slice(processes, func(i, j int) bool {
@@ -110,6 +115,45 @@ func ShortestJobFirst(processes []Process, totalTime time.Duration) {
 	elapsedTime := time.Since(start)
 	fmt.Println("\n")
 
-	// outputs statistics for first come first serve algorithm
+	// outputs statistics for shortest job first scheduling algorithm
+	GenerateStatistics(elapsedTime, processes)
+}
+
+
+
+// runs the list of processes for a maximum of totalTime seconds in 
+// accordance to the priority scheduling algorithm
+// uses low numbers as high priority, with 1 as highest priority
+func Priority(processes []Process, totalTime time.Duration) {
+	fmt.Println("\n\n                         Running Priority Scheduling Algorithm...")
+
+	// sorts the list of processes by duration
+	sort.Slice(processes, func(i, j int) bool {
+		return processes[i].priority < processes[j].priority
+	})
+
+	fmt.Println("processes...")
+	printProcesses(processes)
+
+	i := 0
+	start := time.Now()
+
+	for time.Since(start) < (totalTime) {
+		fmt.Println("starting process ", i)
+
+		processes[i].waitingTime += time.Since(start)
+		time.Sleep(time.Duration(processes[i].duration) * time.Second)
+		processes[i].completed = true
+		processes[i].turnaroundTime += time.Since(start)
+
+		if i >= len(processes) {
+			break
+		}
+		i++
+	}
+	elapsedTime := time.Since(start)
+	fmt.Println("\n")
+
+	// outputs statistics for priority scheduling algorithm
 	GenerateStatistics(elapsedTime, processes)
 }

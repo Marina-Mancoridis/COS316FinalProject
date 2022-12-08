@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"sort"
 	"strconv"
 	"time"
 )
@@ -14,6 +13,7 @@ type Process struct {
 	waitingTime    time.Duration
 	turnaroundTime time.Duration
 	completed      bool
+	priority       int
 }
 
 
@@ -27,6 +27,7 @@ func generateProcesses() []Process {
 	p1.waitingTime = 0 * time.Second
 	p1.turnaroundTime = 0 * time.Second
 	p1.completed = false
+	p1.priority = 2
 
 	p2 := new(Process)
 	p2.arrivalTime = 2
@@ -34,6 +35,7 @@ func generateProcesses() []Process {
 	p2.waitingTime = 0 * time.Second
 	p2.turnaroundTime = 0 * time.Second
 	p2.completed = false
+	p2.priority = 3
 
 	p3 := new(Process)
 	p3.arrivalTime = 1
@@ -41,17 +43,11 @@ func generateProcesses() []Process {
 	p3.waitingTime = 0 * time.Second
 	p3.turnaroundTime = 0 * time.Second
 	p3.completed = false
+	p3.priority = 1
 
 	processes = append(processes, *p1)
 	processes = append(processes, *p2)
 	processes = append(processes, *p3)
-
-	// printProcesses(processes)
-
-	// sorts the list of processes by arrival time
-	sort.Slice(processes, func(i, j int) bool {
-		return processes[i].arrivalTime < processes[j].arrivalTime
-	})
 
 	return processes
 }
@@ -60,7 +56,10 @@ func generateProcesses() []Process {
 // prints a workload of processes in a readable way
 func printProcesses(processList []Process) {
 	for i := 0; i < len(processList); i++ {
-		fmt.Println("(arrivalTime: " + strconv.Itoa(processList[i].arrivalTime) + ", duration: " + strconv.Itoa(processList[i].duration) + ")")
+		fmt.Println("(arrivalTime: " + 
+		strconv.Itoa(processList[i].arrivalTime) + ", duration: " + 
+		strconv.Itoa(processList[i].duration) + ", priority: " + 
+		strconv.Itoa(processList[i].priority) + ")")
 	}
 }
 
@@ -72,7 +71,6 @@ func printProcesses(processList []Process) {
 func main() {
 	processes := generateProcesses()
 	FirstComeFirstServe(processes, 5*time.Second)
-
-	processesAgain := generateProcesses()
-	ShortestJobFirst(processesAgain, 5*time.Second)
+	ShortestJobFirst(processes, 5*time.Second)
+	Priority(processes, 5*time.Second)
 }
