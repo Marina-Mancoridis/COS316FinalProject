@@ -216,6 +216,9 @@ func Priority(processes []Process, totalTime int) {
 // 	GenerateStatistics(currentTime, processes)
 // }
 
+// currently, priorities are decremented every time a process has been completed, not by number of seconds
+// that every process has been waiting... we should figure out how we are decrementing priorities!
+// can play around with this metric as well...
 func PriorityWithAging(processes []Process, totalTime int) {
 	fmt.Println("\n\n                         Running Priority With Aging Scheduling Algorithm...")
 
@@ -224,19 +227,26 @@ func PriorityWithAging(processes []Process, totalTime int) {
 		return processes[i].arrivalTime < processes[j].arrivalTime
 	})
 
-	// fmt.Println("processes...")
+	// fmt.Println("PROCESSES SORTED BY ARRIVAL TIME")
 	// printProcesses(processes)
+	// fmt.Println("--------------")
 
 	i := 0
 	currentTime := 0
 
 	for currentTime < totalTime {
+		// fmt.Println("---------------------------------------------------")
+		// fmt.Println("AT TIME STEP ", currentTime)
 		// update the queue and priorities
 		for j := 0; j < len(processes); j++ {
-			if processes[j].arrivalTime <= currentTime {
+			if processes[j].arrivalTime > currentTime {
+				break
+			}
+			if !processes[j].completed {
 				// process was already in queue -> decrement the priority
 				if processes[j].isInQueue {
-					if processes[j].priority >= 2 {
+					// cannot have negative priorities
+					if processes[j].priority >= 1 {
 						processes[j].priority -= 1
 					}
 					// process was not already in queue -> add to queue
@@ -244,21 +254,30 @@ func PriorityWithAging(processes []Process, totalTime int) {
 					processes[j].isInQueue = true
 				}
 				// no need to update any processes who haven't arrived yet
-			} else {
-				break
 			}
 		}
 
+		// fmt.Println("queue and priorities supposedly updated...")
+		// printProcesses(processes)
+		// fmt.Println("--------------")
+
 		// find the next process to execute
-		processId := 0
+		processId := -1
 		lowestPriority := math.MaxInt
 		for j := 0; j < len(processes); j++ {
 			if processes[j].isInQueue {
 				// note: between processes of same priority, processes that arrived first are prioritized
 				if processes[j].priority < lowestPriority {
 					processId = j
+					lowestPriority = processes[j].priority
 				}
 			}
+		}
+		// fmt.Println("next process to execute has id: ", processId)
+
+		// return if there are no more processes to execute
+		if processId == -1 {
+			return
 		}
 
 		// execute the next process, mark as completed, take it off the queue
@@ -271,10 +290,11 @@ func PriorityWithAging(processes []Process, totalTime int) {
 			break
 		}
 
-		// update the waiting time of all processes in the queue
+		// update the waiting and turnaround time of all processes in the queue
 		for j := 0; j < len(processes); j++ {
 			if processes[j].isInQueue {
 				processes[j].waitingTime += processes[processId].duration
+				processes[j].turnaroundTime += processes[processId].duration
 			}
 		}
 
@@ -283,8 +303,8 @@ func PriorityWithAging(processes []Process, totalTime int) {
 		}
 		i++
 	}
-	// fmt.Println("\n")
+	fmt.Println("\n")
 
 	// outputs statistics for shortest job first scheduling algorithm
-	// GenerateStatistics(currentTime, processes)
+	GenerateStatistics(currentTime, processes)
 }
