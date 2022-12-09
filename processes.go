@@ -68,6 +68,54 @@ func generateEqualDistributionProcesses(numberOfProcesses int) []Process {
 	return processes
 }
 
+func generateRandomUniformDurationProcesses(numberOfProcesses int) []Process {
+	var processes []Process
+
+	for i := 0; i < numberOfProcesses; i++ {
+		p := new(Process)
+		p.arrivalTime = rand.Intn(100)
+		p.duration = rand.Intn(100)
+		p.waitingTime = 0
+		p.turnaroundTime = 0
+		p.completed = false
+		p.priority = rand.Intn(10)
+
+		processes = append(processes, *p)
+	}
+
+	return processes
+}
+
+func generateShortLongProcesses(numberOfShortProcesses int, numberOfLongProcesses int) []Process {
+	var processes []Process
+
+	for i := 0; i < numberOfShortProcesses; i++ {
+		p := new(Process)
+		p.arrivalTime = rand.Intn(100)
+		p.duration = rand.Intn(10)
+		p.waitingTime = 0
+		p.turnaroundTime = 0
+		p.completed = false
+		p.priority = rand.Intn(10)
+
+		processes = append(processes, *p)
+	}
+
+	for i := 0; i < numberOfLongProcesses; i++ {
+		p := new(Process)
+		p.arrivalTime = rand.Intn(100)
+		p.duration = rand.Intn(100) + 100
+		p.waitingTime = 0
+		p.turnaroundTime = 0
+		p.completed = false
+		p.priority = rand.Intn(10)
+
+		processes = append(processes, *p)
+	}
+
+	return processes
+}
+
 // prints a workload of processes in a readable way
 func printProcesses(processList []Process) {
 	for i := 0; i < len(processList); i++ {
