@@ -1,9 +1,9 @@
 package main
 
 import (
+	"container/list"
 	"fmt"
 	"sort"
-	"container/list"
 )
 
 // generates throughput, average waiting time, and average turnaround
@@ -160,9 +160,7 @@ func Priority(processes []Process, totalTime int) {
 	GenerateStatistics(currentTime, processes)
 }
 
-
-
-// runs the list of processes for a maximum of totalTime seconds in 
+// runs the list of processes for a maximum of totalTime seconds in
 // accordance to the round robin scheduling algorithm
 func RoundRobin(processes []Process, totalTime int, timeQuantum int) {
 	fmt.Println("\n\n                         Running Round Robin Scheduling Algorithm...")
@@ -184,22 +182,22 @@ func RoundRobin(processes []Process, totalTime int, timeQuantum int) {
 	i := 0
 	currentTime := 0
 
-	for currentTime < totalTime {	
+	for currentTime < totalTime {
 		// remove process from front of queue
 		front := readyQueue.Front()
 		process := *front
 		readyQueue.Remove(process)
 
 		// if the process can be executed on time
-		if (currentTime + process.duration <= totalTime) {
+		if currentTime+process.duration <= totalTime {
 			// if process can be executed within time quantum
-			if ((process.duration - process.secondsCompleted) <= timeQuantum) {
+			if (process.duration - process.secondsCompleted) <= timeQuantum {
 				process.waitingTime += currentTime
 				currentTime += process.duration - process.secondsCompleted
 				process.completed = true
 				process.turnaroundTime += currentTime
 			} else {
-			// if process cannot be executed within time quantum
+				// if process cannot be executed within time quantum
 				process.waitingTime += currentTime
 				currentTime += timeQuantum
 				process.secondsCompleted += timeQuantum
@@ -208,8 +206,8 @@ func RoundRobin(processes []Process, totalTime int, timeQuantum int) {
 		} else {
 			break
 		}
-		
-		if i >= len(processes) {
+
+		if i >= len(processes)-1 {
 			break
 		}
 		i++
