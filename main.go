@@ -11,5 +11,5 @@ func main() {
 	// FirstComeFirstServe(processes, 7)
 	// ShortestJobFirst(processes, 5)
 	// Priority(processes, 5)
-	// RoundRobin(processes, 5, 1)
+	RoundRobin(processes, 5, 1)
 }

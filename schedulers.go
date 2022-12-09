@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"sort"
-	// "container/list"
+	"container/list"
 )
 
 // generates throughput, average waiting time, and average turnaround
@@ -166,50 +166,60 @@ func Priority(processes []Process, totalTime int) {
 
 
 
-// // runs the list of processes for a maximum of totalTime seconds in 
-// // accordance to the round robin scheduling algorithm
-// // sleep for the time quantum amount of time, then subtract
-// func RoundRobin(processes []Process, totalTime time.Duration, timeQuantum time.Duration) {
-// 	fmt.Println("\n\n                         Running Round Robin Scheduling Algorithm...")
+// runs the list of processes for a maximum of totalTime seconds in 
+// accordance to the round robin scheduling algorithm
+func RoundRobin(processes []Process, totalTime int, timeQuantum int) {
+	fmt.Println("\n\n                         Running Round Robin Scheduling Algorithm...")
 
-// 	// sorts the list of processes by arrival time
-// 	sort.Slice(processes, func(i, j int) bool {
-// 		return processes[i].arrivalTime < processes[j].arrivalTime
-// 	})
+	// sorts the list of processes by arrival time
+	sort.Slice(processes, func(i, j int) bool {
+		return processes[i].arrivalTime < processes[j].arrivalTime
+	})
 
-// 	fmt.Println("processes...")
-// 	printProcesses(processes)
+	// puts processes into a readyQueue
+	readyQueue := list.New()
+	for i := 0; i < len(processes); i++ {
+		readyQueue.PushBack(processes[i])
+	}
 
-// 	// puts processes into a readyQueue
-// 	readyQueue := list.New()
-// 	for i := 0; i < len(processes); i++ {
-// 		readyQueue.PushBack(processes[i])
-// 	}
+	fmt.Println("processes...")
+	printProcesses(processes)
 
+	i := 0
+	currentTime := 0
 
-// 	i := 0
-// 	start := time.Now()
+	for currentTime < totalTime {	
+		// remove process from front of queue
+		front := readyQueue.Front()
+		process := *front
+		readyQueue.Remove(process)
 
-// 	// TODO: needs to "cut" the sleep of a process... we don't know how 
-// 	// to do that still, and it's a problem we've been running into
-// 	for time.Since(start) < (totalTime) {
-// 		fmt.Println("starting process ", i)
+		// if the process can be executed on time
+		if (currentTime + process.duration <= totalTime) {
+			// if process can be executed within time quantum
+			if ((process.duration - process.secondsCompleted) <= timeQuantum) {
+				process.waitingTime += currentTime
+				currentTime += process.duration - process.secondsCompleted
+				process.completed = true
+				process.turnaroundTime += currentTime
+			} else {
+			// if process cannot be executed within time quantum
+				process.waitingTime += currentTime
+				currentTime += timeQuantum
+				process.secondsCompleted += timeQuantum
+				readyQueue.PushBack(process)
+			}
+		} else {
+			break
+		}
+		
+		if i >= len(processes) {
+			break
+		}
+		i++
+	}
+	fmt.Println("\n")
 
-// 		processes[i].waitingTime += time.Since(start)
-
-// 		// TODO: needs to use time quantum and potentially the queue!!!
-// 		time.Sleep(time.Duration(processes[i].duration) * time.Second)
-// 		processes[i].completed = true
-// 		processes[i].turnaroundTime += time.Since(start)
-
-// 		if i >= len(processes) {
-// 			break
-// 		}
-// 		i++
-// 	}
-// 	elapsedTime := time.Since(start)
-// 	fmt.Println("\n")
-
-// 	// outputs statistics for round robin scheduling algorithm
-// 	GenerateStatistics(elapsedTime, processes)
-// }
+	// outputs statistics for shortest job first scheduling algorithm
+	GenerateStatistics(currentTime, processes)
+}
