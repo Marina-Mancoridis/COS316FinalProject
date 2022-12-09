@@ -6,10 +6,9 @@ package main
 func main() {
 	// processes := generateToyProcesses()
 	// printProcesses(processes)
-	processes := generateShortLongProcesses(5, 5)
-	printProcesses(processes)
-	// FirstComeFirstServe(processes, 7)
-	// ShortestJobFirst(processes, 5)
-	// Priority(processes, 5)
+	processes := generateEqualDistributionProcesses(10)
+	// FirstComeFirstServe(processes, 10000)
+	// ShortestJobFirst(processes, 10000)
+	Priority(processes, 10000)
 	// RoundRobin(processes, 5, 1)
 }

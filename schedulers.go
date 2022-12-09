@@ -28,7 +28,7 @@ func GenerateStatistics(elapsedTime int, processes []Process) {
 
 	// processes completed
 	fmt.Println("processes completed:                 ", processesCompleted)
-	
+
 	// throughput
 	// converts processes/nanosecond to processes/second
 	throughput := float64(processesCompleted) / float64(elapsedTime)
@@ -43,9 +43,7 @@ func GenerateStatistics(elapsedTime int, processes []Process) {
 	fmt.Println("average turnaround time (s/process): ", averageTurnaroundTime)
 }
 
-
-
-// runs the list of processes for a maximum of totalTime seconds in 
+// runs the list of processes for a maximum of totalTime seconds in
 // accordance to the first come first serve scheduling algorithm
 func FirstComeFirstServe(processes []Process, totalTime int) {
 	fmt.Println("\n\n                         Running First Come First Serve Scheduling Algorithm...")
@@ -54,16 +52,18 @@ func FirstComeFirstServe(processes []Process, totalTime int) {
 	sort.Slice(processes, func(i, j int) bool {
 		return processes[i].arrivalTime < processes[j].arrivalTime
 	})
-	
+
 	fmt.Println("processes...")
 	printProcesses(processes)
-	
+
+	fmt.Println("HEH!")
+
 	i := 0
 	currentTime := 0
 
 	for currentTime < (totalTime) {
 		// if the process can be executed on time
-		if (currentTime + processes[i].duration <= totalTime) {
+		if currentTime+processes[i].duration <= totalTime {
 			processes[i].waitingTime += currentTime
 			currentTime += processes[i].duration
 			processes[i].completed = true
@@ -71,8 +71,8 @@ func FirstComeFirstServe(processes []Process, totalTime int) {
 		} else {
 			break
 		}
-		
-		if i >= len(processes) {
+
+		if i >= len(processes)-1 {
 			break
 		}
 		i++
@@ -83,9 +83,7 @@ func FirstComeFirstServe(processes []Process, totalTime int) {
 	GenerateStatistics(currentTime, processes)
 }
 
-
-
-// runs the list of processes for a maximum of totalTime seconds in 
+// runs the list of processes for a maximum of totalTime seconds in
 // accordance to the shortest job first scheduling algorithm
 func ShortestJobFirst(processes []Process, totalTime int) {
 	fmt.Println("\n\n                         Running Shortest Job First Scheduling Algorithm...")
@@ -101,9 +99,9 @@ func ShortestJobFirst(processes []Process, totalTime int) {
 	i := 0
 	currentTime := 0
 
-	for currentTime < totalTime {	
+	for currentTime < totalTime {
 		// if the process can be executed on time
-		if (currentTime + processes[i].duration <= totalTime) {
+		if currentTime+processes[i].duration <= totalTime {
 			processes[i].waitingTime += currentTime
 			currentTime += processes[i].duration
 			processes[i].completed = true
@@ -111,8 +109,8 @@ func ShortestJobFirst(processes []Process, totalTime int) {
 		} else {
 			break
 		}
-		
-		if i >= len(processes) {
+
+		if i >= len(processes)-1 {
 			break
 		}
 		i++
@@ -123,9 +121,7 @@ func ShortestJobFirst(processes []Process, totalTime int) {
 	GenerateStatistics(currentTime, processes)
 }
 
-
-
-// // runs the list of processes for a maximum of totalTime seconds in 
+// // runs the list of processes for a maximum of totalTime seconds in
 // // accordance to the priority scheduling algorithm
 // // uses low numbers as high priority, with 1 as highest priority
 func Priority(processes []Process, totalTime int) {
@@ -142,9 +138,9 @@ func Priority(processes []Process, totalTime int) {
 	i := 0
 	currentTime := 0
 
-	for currentTime < totalTime {	
+	for currentTime < totalTime {
 		// if the process can be executed on time
-		if (currentTime + processes[i].duration <= totalTime) {
+		if currentTime+processes[i].duration <= totalTime {
 			processes[i].waitingTime += currentTime
 			currentTime += processes[i].duration
 			processes[i].completed = true
@@ -152,8 +148,8 @@ func Priority(processes []Process, totalTime int) {
 		} else {
 			break
 		}
-		
-		if i >= len(processes) {
+
+		if i >= len(processes)-1 {
 			break
 		}
 		i++
@@ -164,9 +160,7 @@ func Priority(processes []Process, totalTime int) {
 	GenerateStatistics(currentTime, processes)
 }
 
-
-
-// // runs the list of processes for a maximum of totalTime seconds in 
+// // runs the list of processes for a maximum of totalTime seconds in
 // // accordance to the round robin scheduling algorithm
 // // sleep for the time quantum amount of time, then subtract
 // func RoundRobin(processes []Process, totalTime time.Duration, timeQuantum time.Duration) {
@@ -186,11 +180,10 @@ func Priority(processes []Process, totalTime int) {
 // 		readyQueue.PushBack(processes[i])
 // 	}
 
-
 // 	i := 0
 // 	start := time.Now()
 
-// 	// TODO: needs to "cut" the sleep of a process... we don't know how 
+// 	// TODO: needs to "cut" the sleep of a process... we don't know how
 // 	// to do that still, and it's a problem we've been running into
 // 	for time.Since(start) < (totalTime) {
 // 		fmt.Println("starting process ", i)
