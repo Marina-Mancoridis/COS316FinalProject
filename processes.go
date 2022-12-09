@@ -15,6 +15,7 @@ type Process struct {
 	completed        bool
 	priority         int
 	secondsCompleted int
+	isInQueue        bool
 }
 
 // creates a workload of processes (manually catered, for now)
@@ -28,6 +29,7 @@ func generateToyProcesses() []Process {
 	p1.completed = false
 	p1.priority = 2
 	p1.secondsCompleted = 0
+	p1.isInQueue = false
 
 	p2 := new(Process)
 	p2.arrivalTime = 2
@@ -37,6 +39,7 @@ func generateToyProcesses() []Process {
 	p2.completed = false
 	p2.priority = 3
 	p2.secondsCompleted = 0
+	p2.isInQueue = false
 
 	p3 := new(Process)
 	p3.arrivalTime = 1
@@ -46,6 +49,7 @@ func generateToyProcesses() []Process {
 	p3.completed = false
 	p3.priority = 1
 	p3.secondsCompleted = 0
+	p3.isInQueue = false
 
 	processes = append(processes, *p1)
 	processes = append(processes, *p2)
@@ -60,12 +64,13 @@ func generateEqualDistributionProcesses(numberOfProcesses int) []Process {
 	for i := 0; i < numberOfProcesses; i++ {
 		p := new(Process)
 		p.arrivalTime = rand.Intn(100)
-		p.duration = 100
+		p.duration = 1
 		p.waitingTime = 0
 		p.turnaroundTime = 0
 		p.completed = false
 		p.priority = rand.Intn(10)
 		p.secondsCompleted = 0
+		p.isInQueue = false
 
 		processes = append(processes, *p)
 	}
@@ -85,6 +90,7 @@ func generateRandomUniformDurationProcesses(numberOfProcesses int) []Process {
 		p.completed = false
 		p.priority = rand.Intn(10)
 		p.secondsCompleted = 0
+		p.isInQueue = false
 
 		processes = append(processes, *p)
 	}
@@ -104,6 +110,7 @@ func generateShortLongProcesses(numberOfShortProcesses int, numberOfLongProcesse
 		p.completed = false
 		p.priority = rand.Intn(10)
 		p.secondsCompleted = 0
+		p.isInQueue = false
 
 		processes = append(processes, *p)
 	}
@@ -117,6 +124,7 @@ func generateShortLongProcesses(numberOfShortProcesses int, numberOfLongProcesse
 		p.completed = false
 		p.priority = rand.Intn(10)
 		p.secondsCompleted = 0
+		p.isInQueue = false
 
 		processes = append(processes, *p)
 	}

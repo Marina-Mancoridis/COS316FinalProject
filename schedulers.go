@@ -1,8 +1,8 @@
 package main
 
 import (
-	"container/list"
 	"fmt"
+	"math"
 	"sort"
 )
 
@@ -53,10 +53,8 @@ func FirstComeFirstServe(processes []Process, totalTime int) {
 		return processes[i].arrivalTime < processes[j].arrivalTime
 	})
 
-	fmt.Println("processes...")
-	printProcesses(processes)
-
-	fmt.Println("HEH!")
+	// fmt.Println("processes...")
+	// printProcesses(processes)
 
 	i := 0
 	currentTime := 0
@@ -77,7 +75,7 @@ func FirstComeFirstServe(processes []Process, totalTime int) {
 		}
 		i++
 	}
-	fmt.Println("\n")
+	// fmt.Println("\n")
 
 	// outputs statistics for first come first serve scheduling algorithm
 	GenerateStatistics(currentTime, processes)
@@ -93,8 +91,8 @@ func ShortestJobFirst(processes []Process, totalTime int) {
 		return processes[i].duration < processes[j].duration
 	})
 
-	fmt.Println("processes...")
-	printProcesses(processes)
+	// fmt.Println("processes...")
+	// printProcesses(processes)
 
 	i := 0
 	currentTime := 0
@@ -115,7 +113,7 @@ func ShortestJobFirst(processes []Process, totalTime int) {
 		}
 		i++
 	}
-	fmt.Println("\n")
+	// fmt.Println("\n")
 
 	// outputs statistics for shortest job first scheduling algorithm
 	GenerateStatistics(currentTime, processes)
@@ -127,13 +125,13 @@ func ShortestJobFirst(processes []Process, totalTime int) {
 func Priority(processes []Process, totalTime int) {
 	fmt.Println("\n\n                         Running Priority Scheduling Algorithm...")
 
-	// sorts the list of processes by duration
+	// sorts the list of processes by priority
 	sort.Slice(processes, func(i, j int) bool {
 		return processes[i].priority < processes[j].priority
 	})
 
-	fmt.Println("processes...")
-	printProcesses(processes)
+	// fmt.Println("processes...")
+	// printProcesses(processes)
 
 	i := 0
 	currentTime := 0
@@ -141,7 +139,7 @@ func Priority(processes []Process, totalTime int) {
 	for currentTime < totalTime {
 		// if the process can be executed on time
 		if currentTime+processes[i].duration <= totalTime {
-			processes[i].waitingTime += currentTime
+			processes[i].waitingTime += currentTime // i feel like this is wrong!
 			currentTime += processes[i].duration
 			processes[i].completed = true
 			processes[i].turnaroundTime += currentTime
@@ -154,7 +152,7 @@ func Priority(processes []Process, totalTime int) {
 		}
 		i++
 	}
-	fmt.Println("\n")
+	// fmt.Println("\n")
 
 	// outputs statistics for shortest job first scheduling algorithm
 	GenerateStatistics(currentTime, processes)
@@ -162,49 +160,122 @@ func Priority(processes []Process, totalTime int) {
 
 // runs the list of processes for a maximum of totalTime seconds in
 // accordance to the round robin scheduling algorithm
-func RoundRobin(processes []Process, totalTime int, timeQuantum int) {
-	fmt.Println("\n\n                         Running Round Robin Scheduling Algorithm...")
+// func RoundRobin(processes []Process, totalTime int, timeQuantum int) {
+// 	fmt.Println("\n\n                         Running Round Robin Scheduling Algorithm...")
+
+// 	// sorts the list of processes by arrival time
+// 	sort.Slice(processes, func(i, j int) bool {
+// 		return processes[i].arrivalTime < processes[j].arrivalTime
+// 	})
+
+// 	// puts processes into a readyQueue
+// 	readyQueue := list.New()
+// 	for i := 0; i < len(processes); i++ {
+// 		readyQueue.PushBack(processes[i])
+// 	}
+
+// 	fmt.Println("processes...")
+// 	printProcesses(processes)
+
+// 	i := 0
+// 	currentTime := 0
+
+// 	for currentTime < totalTime {
+// 		// remove process from front of queue
+// 		front := readyQueue.Front()
+// 		process := *front
+// 		readyQueue.Remove(process)
+
+// 		// if the process can be executed on time
+// 		if currentTime+process.duration <= totalTime {
+// 			// if process can be executed within time quantum
+// 			if (process.duration - process.secondsCompleted) <= timeQuantum {
+// 				process.waitingTime += currentTime
+// 				currentTime += process.duration - process.secondsCompleted
+// 				process.completed = true
+// 				process.turnaroundTime += currentTime
+// 			} else {
+// 				// if process cannot be executed within time quantum
+// 				process.waitingTime += currentTime
+// 				currentTime += timeQuantum
+// 				process.secondsCompleted += timeQuantum
+// 				readyQueue.PushBack(process)
+// 			}
+// 		} else {
+// 			break
+// 		}
+
+// 		if i >= len(processes)-1 {
+// 			break
+// 		}
+// 		i++
+// 	}
+// 	fmt.Println("\n")
+
+// 	// outputs statistics for shortest job first scheduling algorithm
+// 	GenerateStatistics(currentTime, processes)
+// }
+
+func PriorityWithAging(processes []Process, totalTime int) {
+	fmt.Println("\n\n                         Running Priority With Aging Scheduling Algorithm...")
 
 	// sorts the list of processes by arrival time
 	sort.Slice(processes, func(i, j int) bool {
 		return processes[i].arrivalTime < processes[j].arrivalTime
 	})
 
-	// puts processes into a readyQueue
-	readyQueue := list.New()
-	for i := 0; i < len(processes); i++ {
-		readyQueue.PushBack(processes[i])
-	}
-
-	fmt.Println("processes...")
-	printProcesses(processes)
+	// fmt.Println("processes...")
+	// printProcesses(processes)
 
 	i := 0
 	currentTime := 0
 
 	for currentTime < totalTime {
-		// remove process from front of queue
-		front := readyQueue.Front()
-		process := *front
-		readyQueue.Remove(process)
-
-		// if the process can be executed on time
-		if currentTime+process.duration <= totalTime {
-			// if process can be executed within time quantum
-			if (process.duration - process.secondsCompleted) <= timeQuantum {
-				process.waitingTime += currentTime
-				currentTime += process.duration - process.secondsCompleted
-				process.completed = true
-				process.turnaroundTime += currentTime
+		// update the queue and priorities
+		for j := 0; j < len(processes); j++ {
+			if processes[j].arrivalTime <= currentTime {
+				// process was already in queue -> decrement the priority
+				if processes[j].isInQueue {
+					if processes[j].priority >= 2 {
+						processes[j].priority -= 1
+					}
+					// process was not already in queue -> add to queue
+				} else {
+					processes[j].isInQueue = true
+				}
+				// no need to update any processes who haven't arrived yet
 			} else {
-				// if process cannot be executed within time quantum
-				process.waitingTime += currentTime
-				currentTime += timeQuantum
-				process.secondsCompleted += timeQuantum
-				readyQueue.PushBack(process)
+				break
 			}
+		}
+
+		// find the next process to execute
+		processId := 0
+		lowestPriority := math.MaxInt
+		for j := 0; j < len(processes); j++ {
+			if processes[j].isInQueue {
+				// note: between processes of same priority, processes that arrived first are prioritized
+				if processes[j].priority < lowestPriority {
+					processId = j
+				}
+			}
+		}
+
+		// execute the next process, mark as completed, take it off the queue
+		if currentTime+processes[processId].duration <= totalTime {
+			currentTime += processes[processId].duration
+			processes[processId].completed = true
+			processes[processId].isInQueue = false
+			processes[processId].turnaroundTime += processes[processId].duration
 		} else {
 			break
+		}
+
+		// update the waiting time of all processes in the queue
+		for j := 0; j < len(processes); j++ {
+			if processes[j].isInQueue {
+				processes[j].waitingTime += processes[processId].duration
+			}
 		}
 
 		if i >= len(processes)-1 {
@@ -212,8 +283,8 @@ func RoundRobin(processes []Process, totalTime int, timeQuantum int) {
 		}
 		i++
 	}
-	fmt.Println("\n")
+	// fmt.Println("\n")
 
 	// outputs statistics for shortest job first scheduling algorithm
-	GenerateStatistics(currentTime, processes)
+	// GenerateStatistics(currentTime, processes)
 }
