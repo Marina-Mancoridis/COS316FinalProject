@@ -84,7 +84,7 @@ func generatePriorityAgingProcesses(numberOfProcesses int) []Process {
 	for i := 0; i < numberOfProcesses; i++ {
 		p := new(Process)
 		p.arrivalTime = rand.Intn(10)
-		p.duration = rand.Intn(10)
+		p.duration = rand.Intn(9) + 1
 		p.waitingTime = 0
 		p.turnaroundTime = 0
 		p.completed = false
@@ -104,7 +104,7 @@ func generateRandomUniformDurationProcesses(numberOfProcesses int) []Process {
 	for i := 0; i < numberOfProcesses; i++ {
 		p := new(Process)
 		p.arrivalTime = rand.Intn(100)
-		p.duration = rand.Intn(100)
+		p.duration = rand.Intn(99) + 1
 		p.waitingTime = 0
 		p.turnaroundTime = 0
 		p.completed = false
@@ -124,7 +124,7 @@ func generateShortLongProcesses(numberOfShortProcesses int, numberOfLongProcesse
 	for i := 0; i < numberOfShortProcesses; i++ {
 		p := new(Process)
 		p.arrivalTime = rand.Intn(100)
-		p.duration = rand.Intn(10)
+		p.duration = rand.Intn(9) + 1
 		p.waitingTime = 0
 		p.turnaroundTime = 0
 		p.completed = false
