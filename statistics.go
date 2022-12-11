@@ -44,10 +44,10 @@ func GenerateStatistics(elapsedTime int, processes []Process) {
 	// average waiting time per process with each initial priority
 	fmt.Println("average waiting time by priority:")
 	sort.Slice(processes, func(i, j int) bool {
-		return processes[i].priority < processes[j].priority
+		return processes[i].initialPriority < processes[j].initialPriority
 	})
-	lowestInitialPriority := processes[0].priority
-	highestInitialPriority := processes[len(processes) - 1].priority
+	lowestInitialPriority := processes[0].initialPriority
+	highestInitialPriority := processes[len(processes) - 1].initialPriority
 
 	// one average waiting time statistic per initial priority
 	for i := lowestInitialPriority; i <= highestInitialPriority; i++ {
