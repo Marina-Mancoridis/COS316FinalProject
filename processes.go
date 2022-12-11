@@ -64,6 +64,7 @@ func generateToyProcesses() []Process {
 	processes = append(processes, *p1)
 	processes = append(processes, *p2)
 	processes = append(processes, *p3)
+	processes = append(processes, *p4)
 
 	return processes
 }

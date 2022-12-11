@@ -15,44 +15,6 @@ func FirstComeFirstServe(processes []Process, totalTime int) {
 		return processes[i].arrivalTime < processes[j].arrivalTime
 	})
 
-	// fmt.Println("processes...")
-	// printProcesses(processes)
-
-	i := 0
-	currentTime := 0
-
-	for currentTime < (totalTime) {
-		// if the process can be executed on time
-		if currentTime+processes[i].duration <= totalTime {
-			processes[i].waitingTime += currentTime
-			currentTime += processes[i].duration
-			processes[i].completed = true
-			processes[i].turnaroundTime += currentTime
-		} else {
-			break
-		}
-
-		if i >= len(processes)-1 {
-			break
-		}
-		i++
-	}
-	// fmt.Println("\n")
-
-	// outputs statistics
-	GenerateStatistics(currentTime, processes)
-}
-
-// runs the list of processes for a maximum of totalTime seconds in
-// accordance to the first come first serve scheduling algorithm
-func FirstComeFirstServeQueue(processes []Process, totalTime int) {
-	fmt.Println("\n\n                         Running First Come First Serve (With Queue) Scheduling Algorithm...")
-
-	// sorts the list of processes by arrival time
-	sort.Slice(processes, func(i, j int) bool {
-		return processes[i].arrivalTime < processes[j].arrivalTime
-	})
-
 	fmt.Println("PROCESSES SORTED BY ARRIVAL TIME")
 	printProcesses(processes)
 	fmt.Println("--------------")
@@ -128,6 +90,10 @@ func FirstComeFirstServeQueue(processes []Process, totalTime int) {
 		i++
 	}
 	fmt.Println()
+
+	fmt.Println("RIGHT BEFORE ENTIRE FUNCTION RETURNS")
+	printProcesses(processes)
+	fmt.Println("--------------")
 
 	// outputs statistics
 	GenerateStatistics(currentTime, processes)

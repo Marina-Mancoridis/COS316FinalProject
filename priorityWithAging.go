@@ -100,6 +100,9 @@ func PriorityWithAging(processes []Process, totalTime int) {
 		i++
 	}
 	fmt.Println()
+	fmt.Println("RIGHT BEFORE ENTIRE FUNCTION RETURNS")
+	printProcesses(processes)
+	fmt.Println("--------------")
 
 	// outputs statistics
 	GenerateStatistics(currentTime, processes)
