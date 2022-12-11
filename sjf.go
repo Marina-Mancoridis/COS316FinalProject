@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"sort"
+	"math"
 )
 
 // runs the list of processes for a maximum of totalTime seconds in
@@ -46,14 +47,14 @@ func ShortestJobFirst(processes []Process, totalTime int) {
 // runs the list of processes for a maximum of totalTime seconds in
 // accordance to the shortest job first scheduling algorithm
 func ShortestJobFirstWithQueue(processes []Process, totalTime int) {
-	fmt.Println("\n\n                         Running Shortest Job First (With Queue) Scheduling Algorithm...")
+	fmt.Println("\n\n\n\n\n\n\n                         Running Shortest Job First (With Queue) Scheduling Algorithm...")
 
-	// sorts the list of processes by duration
+	// sorts the list of processes by arrival time
 	sort.Slice(processes, func(i, j int) bool {
-		return processes[i].duration < processes[j].duration
+		return processes[i].arrivalTime < processes[j].arrivalTime
 	})
 
-	fmt.Println("PROCESSES SORTED BY DURATION")
+	fmt.Println("PROCESSES SORTED BY ARRIVAL TIME")
 	printProcesses(processes)
 	fmt.Println("--------------")
 
@@ -63,9 +64,6 @@ func ShortestJobFirstWithQueue(processes []Process, totalTime int) {
 	for currentTime < totalTime {
 		fmt.Println("---------------------------------------------------")
 		fmt.Println("AT TIME STEP ", currentTime)
-
-		// add first process to queue !! this is new.
-		processes[0].isInQueue = true
 
 		// add to queue
 		for j := 0; j < len(processes); j++ {
@@ -87,11 +85,14 @@ func ShortestJobFirstWithQueue(processes []Process, totalTime int) {
 
 		// find the next process to execute
 		processId := -1
+		lowestDuration := math.MaxInt
 		for j := 0; j < len(processes); j++ {
-			// finds first in queue (queue is in duration order...)
 			if processes[j].isInQueue {
-				processId = j
-				break
+				// note: between processes of same duration, processes that arrived first are prioritized
+				if processes[j].duration < lowestDuration {
+					processId = j
+					lowestDuration = processes[j].duration
+				}
 			}
 		}
 		fmt.Println("next process to execute has id: ", processId)

@@ -157,7 +157,8 @@ func printProcesses(processList []Process) {
 	for i := 0; i < len(processList); i++ {
 		fmt.Println("(id: " + strconv.Itoa(i) + ", arrivalTime: " +
 			strconv.Itoa(processList[i].arrivalTime) + ", turnaroundTime: " +
-			strconv.Itoa(processList[i].turnaroundTime) + ", duration: " +
+			strconv.Itoa(processList[i].turnaroundTime) + ", waitingTime: " +
+			strconv.Itoa(processList[i].waitingTime) + ", duration: " +
 			strconv.Itoa(processList[i].duration) + ", priority: " +
 			strconv.Itoa(processList[i].priority) + ", isInQueue: " +
 			strconv.FormatBool(processList[i].isInQueue) + ", completed: " +
