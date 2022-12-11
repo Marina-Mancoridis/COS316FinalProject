@@ -32,7 +32,7 @@ func generateToyProcesses() []Process {
 	p1.isInQueue = false
 
 	p2 := new(Process)
-	p2.arrivalTime = 10
+	p2.arrivalTime = 0
 	p2.duration = 1
 	p2.waitingTime = 0
 	p2.turnaroundTime = 0
@@ -50,6 +50,16 @@ func generateToyProcesses() []Process {
 	p3.priority = 1
 	p3.secondsCompleted = 0
 	p3.isInQueue = false
+
+	p4 := new(Process)
+	p4.arrivalTime = 20
+	p4.duration = 6
+	p4.waitingTime = 0
+	p4.turnaroundTime = 0
+	p4.completed = false
+	p4.priority = 1
+	p4.secondsCompleted = 0
+	p4.isInQueue = false
 
 	processes = append(processes, *p1)
 	processes = append(processes, *p2)
