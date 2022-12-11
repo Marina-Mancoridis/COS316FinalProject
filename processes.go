@@ -17,6 +17,7 @@ type Process struct {
 	initialPriority  int
 	secondsCompleted int
 	isInQueue        bool
+	roundRobinID     int
 }
 
 // creates a workload of processes (manually catered, for now)
@@ -24,7 +25,7 @@ func generateToyProcesses() []Process {
 	var processes []Process
 	p1 := new(Process)
 	p1.arrivalTime = 0
-	p1.duration = 1
+	p1.duration = 3
 	p1.waitingTime = 0
 	p1.turnaroundTime = 0
 	p1.completed = false
@@ -32,10 +33,11 @@ func generateToyProcesses() []Process {
 	p1.initialPriority = 4
 	p1.secondsCompleted = 0
 	p1.isInQueue = false
+	p1.roundRobinID = -1
 
 	p2 := new(Process)
 	p2.arrivalTime = 0
-	p2.duration = 1
+	p2.duration = 3
 	p2.waitingTime = 0
 	p2.turnaroundTime = 0
 	p2.completed = false
@@ -43,10 +45,11 @@ func generateToyProcesses() []Process {
 	p2.initialPriority = 2
 	p2.secondsCompleted = 0
 	p2.isInQueue = false
+	p2.roundRobinID = -1
 
 	p3 := new(Process)
 	p3.arrivalTime = 10
-	p3.duration = 6
+	p3.duration = 5
 	p3.waitingTime = 0
 	p3.turnaroundTime = 0
 	p3.completed = false
@@ -54,6 +57,7 @@ func generateToyProcesses() []Process {
 	p3.initialPriority = 5
 	p3.secondsCompleted = 0
 	p3.isInQueue = false
+	p3.roundRobinID = -1
 
 	p4 := new(Process)
 	p4.arrivalTime = 20
@@ -65,6 +69,7 @@ func generateToyProcesses() []Process {
 	p4.initialPriority = 3
 	p4.secondsCompleted = 0
 	p4.isInQueue = false
+	p4.roundRobinID = -1
 
 	processes = append(processes, *p1)
 	processes = append(processes, *p2)
@@ -84,11 +89,12 @@ func generateEqualDistributionProcesses(numberOfProcesses int) []Process {
 		p.waitingTime = 0
 		p.turnaroundTime = 0
 		p.completed = false
-		prior := rand.Intn(10) 
+		prior := rand.Intn(10)
 		p.priority = prior
 		p.initialPriority = prior
 		p.secondsCompleted = 0
 		p.isInQueue = false
+		p.roundRobinID = -1
 
 		processes = append(processes, *p)
 	}
@@ -111,6 +117,7 @@ func generatePriorityAgingProcesses(numberOfProcesses int) []Process {
 		p.initialPriority = prior
 		p.secondsCompleted = 0
 		p.isInQueue = false
+		p.roundRobinID = -1
 
 		processes = append(processes, *p)
 	}
@@ -133,6 +140,7 @@ func generateRandomUniformDurationProcesses(numberOfProcesses int) []Process {
 		p.initialPriority = prior
 		p.secondsCompleted = 0
 		p.isInQueue = false
+		p.roundRobinID = -1
 
 		processes = append(processes, *p)
 	}
@@ -155,6 +163,7 @@ func generateShortLongProcesses(numberOfShortProcesses int, numberOfLongProcesse
 		p.initialPriority = prior
 		p.secondsCompleted = 0
 		p.isInQueue = false
+		p.roundRobinID = -1
 
 		processes = append(processes, *p)
 	}
@@ -171,6 +180,7 @@ func generateShortLongProcesses(numberOfShortProcesses int, numberOfLongProcesse
 		p.initialPriority = prior
 		p.secondsCompleted = 0
 		p.isInQueue = false
+		p.roundRobinID = -1
 
 		processes = append(processes, *p)
 	}
@@ -185,9 +195,11 @@ func printProcesses(processList []Process) {
 			strconv.Itoa(processList[i].arrivalTime) + ", turnaroundTime: " +
 			strconv.Itoa(processList[i].turnaroundTime) + ", waitingTime: " +
 			strconv.Itoa(processList[i].waitingTime) + ", duration: " +
-			strconv.Itoa(processList[i].duration) + ", priority: " +
-			strconv.Itoa(processList[i].priority) + ", initialPriority: " +
-			strconv.Itoa(processList[i].initialPriority) + ", isInQueue: " +
+			strconv.Itoa(processList[i].duration) + // ", priority: " +
+			// strconv.Itoa(processList[i].priority) + ", initialPriority: " +
+			//strconv.Itoa(processList[i].initialPriority) +
+			", secondsCompleted: " +
+			strconv.Itoa(processList[i].secondsCompleted) + ", isInQueue: " +
 			strconv.FormatBool(processList[i].isInQueue) + ", completed: " +
 			strconv.FormatBool(processList[i].completed) + ")")
 	}
