@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"sort"
 	"math"
+	"sort"
 )
 
 // runs the list of processes for a maximum of totalTime seconds in
@@ -60,6 +60,7 @@ func ShortestJobFirstWithQueue(processes []Process, totalTime int) {
 
 	i := 0
 	currentTime := 0
+	numProcessesComplete := 0
 
 	for currentTime < totalTime {
 		fmt.Println("---------------------------------------------------")
@@ -99,13 +100,19 @@ func ShortestJobFirstWithQueue(processes []Process, totalTime int) {
 
 		// return if there are no more processes to execute
 		if processId == -1 {
-			return
+			if numProcessesComplete < len(processes) {
+				currentTime++
+				continue
+			} else {
+				return
+			}
 		}
 
 		// execute the next process, mark as completed, take it off the queue
 		if currentTime+processes[processId].duration <= totalTime {
 			currentTime += processes[processId].duration
 			processes[processId].completed = true
+			numProcessesComplete++
 			processes[processId].isInQueue = false
 			processes[processId].turnaroundTime += processes[processId].duration
 		} else {
@@ -125,7 +132,7 @@ func ShortestJobFirstWithQueue(processes []Process, totalTime int) {
 		}
 		i++
 	}
-	fmt.Println("\n")
+	fmt.Println()
 
 	// outputs statistics
 	GenerateStatistics(currentTime, processes)

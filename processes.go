@@ -22,7 +22,7 @@ type Process struct {
 func generateToyProcesses() []Process {
 	var processes []Process
 	p1 := new(Process)
-	p1.arrivalTime = 3
+	p1.arrivalTime = 0
 	p1.duration = 1
 	p1.waitingTime = 0
 	p1.turnaroundTime = 0
@@ -32,7 +32,7 @@ func generateToyProcesses() []Process {
 	p1.isInQueue = false
 
 	p2 := new(Process)
-	p2.arrivalTime = 2
+	p2.arrivalTime = 10
 	p2.duration = 1
 	p2.waitingTime = 0
 	p2.turnaroundTime = 0
@@ -42,7 +42,7 @@ func generateToyProcesses() []Process {
 	p2.isInQueue = false
 
 	p3 := new(Process)
-	p3.arrivalTime = 1
+	p3.arrivalTime = 10
 	p3.duration = 6
 	p3.waitingTime = 0
 	p3.turnaroundTime = 0
