@@ -9,7 +9,7 @@ import (
 // runs the list of processes for a maximum of totalTime seconds in
 // accordance to the shortest job first scheduling algorithm
 func ShortestJobFirst(processes []Process, totalTime int) {
-	fmt.Println("\n\n\n\n\n\n\n                         Running Shortest Job First (With Queue) Scheduling Algorithm...")
+	fmt.Println("\n\n\n\n\n\n\n                         Running Shortest Job First Scheduling Algorithm...")
 
 	// sorts the list of processes by arrival time
 	sort.Slice(processes, func(i, j int) bool {

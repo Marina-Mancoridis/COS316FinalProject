@@ -6,48 +6,9 @@ import (
 	"sort"
 )
 
-// // runs the list of processes for a maximum of totalTime seconds in
-// // accordance to the priority scheduling algorithm
-// // uses low numbers as high priority, with 1 as highest priority
+// priority algorithm with queue and without aging
 func Priority(processes []Process, totalTime int) {
 	fmt.Println("\n\n                         Running Priority Scheduling Algorithm...")
-
-	// sorts the list of processes by priority
-	sort.Slice(processes, func(i, j int) bool {
-		return processes[i].priority < processes[j].priority
-	})
-
-	// fmt.Println("processes...")
-	// printProcesses(processes)
-
-	i := 0
-	currentTime := 0
-
-	for currentTime < totalTime {
-		// if the process can be executed on time
-		if currentTime+processes[i].duration <= totalTime {
-			processes[i].waitingTime += currentTime // i feel like this is wrong!
-			currentTime += processes[i].duration
-			processes[i].completed = true
-			processes[i].turnaroundTime += currentTime
-		} else {
-			break
-		}
-
-		if i >= len(processes)-1 {
-			break
-		}
-		i++
-	}
-	// fmt.Println("\n")
-
-	// outputs statistics
-	GenerateStatistics(currentTime, processes)
-}
-
-// priority algorithm with queue and without aging
-func PriorityWithQueue(processes []Process, totalTime int) {
-	fmt.Println("\n\n                         Running Priority (With Queue) Scheduling Algorithm...")
 
 	// sorts the list of processes by arrival time
 	sort.Slice(processes, func(i, j int) bool {

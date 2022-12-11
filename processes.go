@@ -27,7 +27,7 @@ func generateToyProcesses() []Process {
 	p1.waitingTime = 0
 	p1.turnaroundTime = 0
 	p1.completed = false
-	p1.priority = 2
+	p1.priority = 4
 	p1.secondsCompleted = 0
 	p1.isInQueue = false
 
@@ -37,7 +37,7 @@ func generateToyProcesses() []Process {
 	p2.waitingTime = 0
 	p2.turnaroundTime = 0
 	p2.completed = false
-	p2.priority = 3
+	p2.priority = 2
 	p2.secondsCompleted = 0
 	p2.isInQueue = false
 
@@ -47,7 +47,7 @@ func generateToyProcesses() []Process {
 	p3.waitingTime = 0
 	p3.turnaroundTime = 0
 	p3.completed = false
-	p3.priority = 1
+	p3.priority = 5
 	p3.secondsCompleted = 0
 	p3.isInQueue = false
 
@@ -57,7 +57,7 @@ func generateToyProcesses() []Process {
 	p4.waitingTime = 0
 	p4.turnaroundTime = 0
 	p4.completed = false
-	p4.priority = 1
+	p4.priority = 3
 	p4.secondsCompleted = 0
 	p4.isInQueue = false
 
