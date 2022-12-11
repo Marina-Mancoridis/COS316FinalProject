@@ -9,44 +9,6 @@ import (
 // runs the list of processes for a maximum of totalTime seconds in
 // accordance to the shortest job first scheduling algorithm
 func ShortestJobFirst(processes []Process, totalTime int) {
-	fmt.Println("\n\n                         Running Shortest Job First Scheduling Algorithm...")
-
-	// sorts the list of processes by duration
-	sort.Slice(processes, func(i, j int) bool {
-		return processes[i].duration < processes[j].duration
-	})
-
-	// fmt.Println("processes...")
-	// printProcesses(processes)
-
-	i := 0
-	currentTime := 0
-
-	for currentTime < totalTime {
-		// if the process can be executed on time
-		if currentTime+processes[i].duration <= totalTime {
-			processes[i].waitingTime += currentTime
-			currentTime += processes[i].duration
-			processes[i].completed = true
-			processes[i].turnaroundTime += currentTime
-		} else {
-			break
-		}
-
-		if i >= len(processes)-1 {
-			break
-		}
-		i++
-	}
-	// fmt.Println("\n")
-
-	// outputs statistics
-	GenerateStatistics(currentTime, processes)
-}
-
-// runs the list of processes for a maximum of totalTime seconds in
-// accordance to the shortest job first scheduling algorithm
-func ShortestJobFirstWithQueue(processes []Process, totalTime int) {
 	fmt.Println("\n\n\n\n\n\n\n                         Running Shortest Job First (With Queue) Scheduling Algorithm...")
 
 	// sorts the list of processes by arrival time
