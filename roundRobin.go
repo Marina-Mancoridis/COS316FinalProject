@@ -22,7 +22,7 @@ func PrintQueue(readyQueue *list.List) {
 // runs the list of processes for a maximum of totalTime seconds in
 // accordance to the round robin scheduling algorithm
 func RoundRobin(processes []Process, totalTime int, timeQuantum int) {
-	fmt.Println("\n\n                         Running Priority Scheduling Algorithm...")
+	fmt.Println("\n\n                         Running Round Robin Scheduling Algorithm...")
 
 	// sorts the list of processes by arrival time
 	sort.Slice(processes, func(i, j int) bool {

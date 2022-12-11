@@ -4,7 +4,7 @@ package main
 // algorithms, outputting statistics of how the CPU runs under each
 // algorithm
 func main() {
-	processes := generatePriorityAgingProcesses(10)
+	processes := generatePriorityAgingProcesses(8)
 	// processes := generateToyProcesses()
 	// processes := generateShortLongProcesses(100, 900)
 	// Priority(processes, 100)
