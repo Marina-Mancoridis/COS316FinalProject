@@ -8,8 +8,8 @@ func main() {
 	// processes := generateToyProcesses()
 	// processes := generateShortLongProcesses(100, 900)
 	// Priority(processes, 100)
-	PriorityWithAging(processes, 100)
+	// PriorityWithAging(processes, 100)
 	// FirstComeFirstServe(processes, 100)
-	// ShortestJobFirst(processes, 100)
+	ShortestJobFirst(processes, 100)
 	// RoundRobin(processes, 5, 1)
 }

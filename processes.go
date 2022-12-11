@@ -14,6 +14,7 @@ type Process struct {
 	turnaroundTime   int
 	completed        bool
 	priority         int
+	initialPriority  int
 	secondsCompleted int
 	isInQueue        bool
 }
@@ -28,6 +29,7 @@ func generateToyProcesses() []Process {
 	p1.turnaroundTime = 0
 	p1.completed = false
 	p1.priority = 4
+	p1.initialPriority = 4
 	p1.secondsCompleted = 0
 	p1.isInQueue = false
 
@@ -38,6 +40,7 @@ func generateToyProcesses() []Process {
 	p2.turnaroundTime = 0
 	p2.completed = false
 	p2.priority = 2
+	p2.initialPriority = 2
 	p2.secondsCompleted = 0
 	p2.isInQueue = false
 
@@ -48,6 +51,7 @@ func generateToyProcesses() []Process {
 	p3.turnaroundTime = 0
 	p3.completed = false
 	p3.priority = 5
+	p3.initialPriority = 5
 	p3.secondsCompleted = 0
 	p3.isInQueue = false
 
@@ -58,6 +62,7 @@ func generateToyProcesses() []Process {
 	p4.turnaroundTime = 0
 	p4.completed = false
 	p4.priority = 3
+	p4.initialPriority = 3
 	p4.secondsCompleted = 0
 	p4.isInQueue = false
 
@@ -79,7 +84,9 @@ func generateEqualDistributionProcesses(numberOfProcesses int) []Process {
 		p.waitingTime = 0
 		p.turnaroundTime = 0
 		p.completed = false
-		p.priority = rand.Intn(10)
+		prior := rand.Intn(10) 
+		p.priority = prior
+		p.initialPriority = prior
 		p.secondsCompleted = 0
 		p.isInQueue = false
 
@@ -99,7 +106,9 @@ func generatePriorityAgingProcesses(numberOfProcesses int) []Process {
 		p.waitingTime = 0
 		p.turnaroundTime = 0
 		p.completed = false
-		p.priority = rand.Intn(10)
+		prior := rand.Intn(10)
+		p.priority = prior
+		p.initialPriority = prior
 		p.secondsCompleted = 0
 		p.isInQueue = false
 
@@ -119,7 +128,9 @@ func generateRandomUniformDurationProcesses(numberOfProcesses int) []Process {
 		p.waitingTime = 0
 		p.turnaroundTime = 0
 		p.completed = false
-		p.priority = rand.Intn(10)
+		prior := rand.Intn(10)
+		p.priority = prior
+		p.initialPriority = prior
 		p.secondsCompleted = 0
 		p.isInQueue = false
 
@@ -139,7 +150,9 @@ func generateShortLongProcesses(numberOfShortProcesses int, numberOfLongProcesse
 		p.waitingTime = 0
 		p.turnaroundTime = 0
 		p.completed = false
-		p.priority = rand.Intn(10)
+		prior := rand.Intn(10)
+		p.priority = prior
+		p.initialPriority = prior
 		p.secondsCompleted = 0
 		p.isInQueue = false
 
@@ -153,7 +166,9 @@ func generateShortLongProcesses(numberOfShortProcesses int, numberOfLongProcesse
 		p.waitingTime = 0
 		p.turnaroundTime = 0
 		p.completed = false
-		p.priority = rand.Intn(10)
+		prior := rand.Intn(10)
+		p.priority = prior
+		p.initialPriority = prior
 		p.secondsCompleted = 0
 		p.isInQueue = false
 
@@ -171,7 +186,8 @@ func printProcesses(processList []Process) {
 			strconv.Itoa(processList[i].turnaroundTime) + ", waitingTime: " +
 			strconv.Itoa(processList[i].waitingTime) + ", duration: " +
 			strconv.Itoa(processList[i].duration) + ", priority: " +
-			strconv.Itoa(processList[i].priority) + ", isInQueue: " +
+			strconv.Itoa(processList[i].priority) + ", initialPriority: " +
+			strconv.Itoa(processList[i].initialPriority) + ", isInQueue: " +
 			strconv.FormatBool(processList[i].isInQueue) + ", completed: " +
 			strconv.FormatBool(processList[i].completed) + ")")
 	}
