@@ -60,10 +60,11 @@ func PriorityWithQueue(processes []Process, totalTime int) {
 
 	i := 0
 	currentTime := 0
+	numProcessesComplete := 0
 
 	for currentTime < totalTime {
-		// fmt.Println("---------------------------------------------------")
-		// fmt.Println("AT TIME STEP ", currentTime)
+		fmt.Println("---------------------------------------------------")
+		fmt.Println("AT TIME STEP ", currentTime)
 		// add to queue
 		for j := 0; j < len(processes); j++ {
 			if processes[j].arrivalTime > currentTime {
@@ -79,9 +80,9 @@ func PriorityWithQueue(processes []Process, totalTime int) {
 			}
 		}
 
-		// fmt.Println("queue and priorities supposedly updated...")
-		// printProcesses(processes)
-		// fmt.Println("--------------")
+		fmt.Println("queue and priorities supposedly updated...")
+		printProcesses(processes)
+		fmt.Println("--------------")
 
 		// find the next process to execute
 		processId := -1
@@ -95,10 +96,14 @@ func PriorityWithQueue(processes []Process, totalTime int) {
 				}
 			}
 		}
-		// fmt.Println("next process to execute has id: ", processId)
+		fmt.Println("next process to execute has id: ", processId)
 
 		// return if there are no more processes to execute
 		if processId == -1 {
+			if numProcessesComplete < len(processes) {
+				currentTime++
+				continue
+			}
 			return
 		}
 
@@ -106,6 +111,7 @@ func PriorityWithQueue(processes []Process, totalTime int) {
 		if currentTime+processes[processId].duration <= totalTime {
 			currentTime += processes[processId].duration
 			processes[processId].completed = true
+			numProcessesComplete++
 			processes[processId].isInQueue = false
 			processes[processId].turnaroundTime += processes[processId].duration
 		} else {
@@ -125,7 +131,7 @@ func PriorityWithQueue(processes []Process, totalTime int) {
 		}
 		i++
 	}
-	fmt.Println("\n")
+	fmt.Println()
 
 	// outputs statistics
 	GenerateStatistics(currentTime, processes)

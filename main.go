@@ -10,9 +10,9 @@ func main() {
 	// FirstComeFirstServe(processes, 500)
 	// ShortestJobFirst(processes, 500)
 	// Priority(processes, 500)
-	// PriorityWithAging(processes, 100)
+	PriorityWithAging(processes, 100)
 	// FirstComeFirstServeQueue(processes, 100)
-	ShortestJobFirstWithQueue(processes, 100)
+	// ShortestJobFirstWithQueue(processes, 100)
 	// PriorityWithQueue(processes, 100)
 	// RoundRobin(processes, 5, 1)
 }
