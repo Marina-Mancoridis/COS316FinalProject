@@ -57,6 +57,8 @@ func RoundRobin(processes []Process, totalTime int, timeQuantum int) {
 				// process was not in queue -> add it
 				if !processes[j].isInQueue {
 					processes[j].isInQueue = true
+					processes[j].turnaroundTime = currentTime - processes[j].arrivalTime
+					processes[j].waitingTime = currentTime - processes[j].arrivalTime
 					readyQueue.PushBack(j)
 				}
 				// no need to update any processes who haven't arrived yet

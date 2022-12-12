@@ -43,6 +43,8 @@ func PriorityWithAging(processes []Process, totalTime int) {
 					// process was not already in queue -> add to queue
 				} else {
 					processes[j].isInQueue = true
+					processes[j].turnaroundTime = currentTime - processes[j].arrivalTime
+					processes[j].waitingTime = currentTime - processes[j].arrivalTime
 				}
 				// no need to update any processes who haven't arrived yet
 			}

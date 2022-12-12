@@ -4,12 +4,13 @@ package main
 // algorithms, outputting statistics of how the CPU runs under each
 // algorithm
 func main() {
-	processes := generatePriorityAgingProcesses(8)
+	processes := generatePriorityAgingProcesses(10)
 	// processes := generateToyProcesses()
 	// processes := generateShortLongProcesses(100, 900)
 	// Priority(processes, 100)
 	// PriorityWithAging(processes, 100)
 	// FirstComeFirstServe(processes, 100)
-	//ShortestJobFirst(processes, 100)
-	RoundRobin(processes, 100, 2)
+	// ShortestJobFirst(processes, 100)
+	// RoundRobin(processes, 100, 2)
+	StrictMultiLevelQueueScheduling(processes, 100, 5, 7)
 }
