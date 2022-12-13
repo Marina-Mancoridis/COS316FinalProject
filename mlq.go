@@ -11,7 +11,7 @@ import (
 // low priority = [0, mediumPriorityCutoff)
 // medium priority = [mediumPriorityCutoff, highPriorityCutoff)
 // high priority = [highPriorityCutoff, inf)
-func StrictMultiLevelQueueScheduling(processes []Process, totalTime int,
+func MultiLevelQueue(processes []Process, totalTime int,
 	mediumPriorityCutoff int, highPriorityCutoff int) {
 	fmt.Println("\n\n                         Running Strict Multi Level Queue Scheduling Algorithm...")
 

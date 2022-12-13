@@ -46,8 +46,8 @@ func RoundRobin(processes []Process, totalTime int, timeQuantum int) {
 	numProcessesComplete := 0
 
 	for currentTime < totalTime {
-		fmt.Println("---------------------------------------------------")
-		fmt.Println("AT TIME STEP ", currentTime)
+		// fmt.Println("---------------------------------------------------")
+		// fmt.Println("AT TIME STEP ", currentTime)
 		// add to queue
 		for j := 0; j < len(processes); j++ {
 			if processes[j].arrivalTime > currentTime {
@@ -65,10 +65,10 @@ func RoundRobin(processes []Process, totalTime int, timeQuantum int) {
 			}
 		}
 
-		fmt.Println("queue supposedly updated...")
-		PrintQueue(readyQueue)
-		printProcesses(processes)
-		fmt.Println("--------------")
+		// fmt.Println("queue supposedly updated...")
+		// PrintQueue(readyQueue)
+		// printProcesses(processes)
+		// fmt.Println("--------------")
 
 		// find the next process to execute
 		processId := -1
@@ -76,7 +76,7 @@ func RoundRobin(processes []Process, totalTime int, timeQuantum int) {
 			processId = readyQueue.Front().Value.(int)
 		}
 
-		fmt.Println("next process to execute has id: ", processId)
+		// fmt.Println("next process to execute has id: ", processId)
 
 		// return if there are no more processes to execute
 		if processId == -1 {
@@ -101,13 +101,12 @@ func RoundRobin(processes []Process, totalTime int, timeQuantum int) {
 				processes[processId].completed = true
 				numProcessesComplete++
 				processes[processId].isInQueue = false
-				processes[processId].turnaroundTime += timeIncrement
+				processes[processId].turnaroundTime = currentTime - processes[processId].arrivalTime
 				readyQueue.Remove(readyQueue.Front())
 			} else {
 				// if remaining time of process is longer than time quantum
 				timeIncrement = timeQuantum
 				currentTime += timeIncrement
-				processes[processId].turnaroundTime += timeIncrement
 				processes[processId].secondsCompleted += timeIncrement
 				processes[processId].waitingTime += timeIncrement
 				frontVal := readyQueue.Front().Value
@@ -123,7 +122,6 @@ func RoundRobin(processes []Process, totalTime int, timeQuantum int) {
 			id := e.Value.(int)
 			if id != processId {
 				processes[id].waitingTime += timeIncrement
-				processes[id].turnaroundTime += timeIncrement
 			}
 		}
 
@@ -133,10 +131,10 @@ func RoundRobin(processes []Process, totalTime int, timeQuantum int) {
 
 		i++
 	}
-	fmt.Println()
-	fmt.Println("RIGHT BEFORE ENTIRE FUNCTION RETURNS")
-	printProcesses(processes)
-	fmt.Println("--------------")
+	// fmt.Println()
+	// fmt.Println("RIGHT BEFORE ENTIRE FUNCTION RETURNS")
+	// printProcesses(processes)
+	// fmt.Println("--------------")
 
 	// outputs statistics
 	GenerateStatistics(currentTime, processes)

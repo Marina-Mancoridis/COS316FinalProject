@@ -14,16 +14,18 @@ func GenerateStatistics(elapsedTime int, processes []Process) {
 	var processesCompleted = 0
 	var totalWaitingTime = 0
 	var totalTurnaroundTime = 0
+	var totalDurationOfCompletedProcesses = 0
+	var totalDurationOfUncompletedProcesses = 0
 	for i := 0; i < len(processes); i++ {
 		if processes[i].completed == true {
 			totalWaitingTime += processes[i].waitingTime
 			totalTurnaroundTime += processes[i].turnaroundTime
 			processesCompleted++
+			totalDurationOfCompletedProcesses += processes[i].duration
+		} else {
+			totalDurationOfUncompletedProcesses += processes[i].duration
 		}
 	}
-
-	// total time
-	fmt.Println("elapsed time:                        ", elapsedTime)
 
 	// processes completed
 	fmt.Println("processes completed:                 ", processesCompleted)
@@ -47,7 +49,7 @@ func GenerateStatistics(elapsedTime int, processes []Process) {
 		return processes[i].initialPriority < processes[j].initialPriority
 	})
 	lowestInitialPriority := processes[0].initialPriority
-	highestInitialPriority := processes[len(processes) - 1].initialPriority
+	highestInitialPriority := processes[len(processes)-1].initialPriority
 
 	// one average waiting time statistic per initial priority
 	for i := lowestInitialPriority; i <= highestInitialPriority; i++ {
@@ -68,4 +70,14 @@ func GenerateStatistics(elapsedTime int, processes []Process) {
 			fmt.Printf("     priority %d: %.3f\n", i, averageWait)
 		}
 	}
+
+	// number of starved resources
+	numStarved := len(processes) - processesCompleted
+	fmt.Println("number of starved processes: ", numStarved)
+
+	// avg duration of completed processes
+	fmt.Println("avg duration of completed processes: ", float64(totalDurationOfCompletedProcesses)/float64(processesCompleted))
+
+	// avg duration of starved processes
+	fmt.Println("avg duration of starved processes: ", float64(totalDurationOfUncompletedProcesses)/float64(numStarved))
 }
