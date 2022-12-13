@@ -130,7 +130,7 @@ func generateRandomUniformDurationProcesses(numberOfProcesses int) []Process {
 
 	for i := 0; i < numberOfProcesses; i++ {
 		p := new(Process)
-		p.arrivalTime = rand.Intn(99) + 1
+		p.arrivalTime = rand.Intn(9999) + 1
 		p.duration = rand.Intn(9) + 1
 		p.waitingTime = 0
 		p.turnaroundTime = 0

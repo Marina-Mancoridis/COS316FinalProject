@@ -16,14 +16,18 @@ func GenerateStatistics(elapsedTime int, processes []Process) {
 	var totalTurnaroundTime = 0
 	var totalDurationOfCompletedProcesses = 0
 	var totalDurationOfUncompletedProcesses = 0
+	var totalPriorityCompletedProcesses = 0
+	var totalPriorityUncompletedProcesses = 0
 	for i := 0; i < len(processes); i++ {
 		if processes[i].completed == true {
 			totalWaitingTime += processes[i].waitingTime
 			totalTurnaroundTime += processes[i].turnaroundTime
 			processesCompleted++
 			totalDurationOfCompletedProcesses += processes[i].duration
+			totalPriorityCompletedProcesses += processes[i].initialPriority
 		} else {
 			totalDurationOfUncompletedProcesses += processes[i].duration
+			totalPriorityUncompletedProcesses += processes[i].initialPriority
 		}
 	}
 
@@ -80,4 +84,10 @@ func GenerateStatistics(elapsedTime int, processes []Process) {
 
 	// avg duration of starved processes
 	fmt.Println("avg duration of starved processes: ", float64(totalDurationOfUncompletedProcesses)/float64(numStarved))
+
+	// avg priority of completed processes
+	fmt.Println("avg priority of completed processes: ", float64(totalPriorityCompletedProcesses)/float64(processesCompleted))
+
+	// avg priority of starved processes
+	fmt.Println("avg priority of starved processes: ", float64(totalPriorityUncompletedProcesses)/float64(numStarved))
 }

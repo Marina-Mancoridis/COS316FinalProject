@@ -24,8 +24,8 @@ func Priority(processes []Process, totalTime int) {
 	numProcessesComplete := 0
 
 	for currentTime < totalTime {
-		fmt.Println("---------------------------------------------------")
-		fmt.Println("AT TIME STEP ", currentTime)
+		// fmt.Println("---------------------------------------------------")
+		// fmt.Println("AT TIME STEP ", currentTime)
 		// add to queue
 		for j := 0; j < len(processes); j++ {
 			if processes[j].arrivalTime > currentTime {
@@ -43,10 +43,6 @@ func Priority(processes []Process, totalTime int) {
 			}
 		}
 
-		fmt.Println("queue and priorities supposedly updated...")
-		printProcesses(processes)
-		fmt.Println("--------------")
-
 		// find the next process to execute
 		processId := -1
 		lowestPriority := math.MaxInt
@@ -59,7 +55,7 @@ func Priority(processes []Process, totalTime int) {
 				}
 			}
 		}
-		fmt.Println("next process to execute has id: ", processId)
+		// fmt.Println("next process to execute has id: ", processId)
 
 		// return if there are no more processes to execute
 		if processId == -1 {
@@ -94,10 +90,6 @@ func Priority(processes []Process, totalTime int) {
 		}
 		i++
 	}
-	fmt.Println()
-	fmt.Println("RIGHT BEFORE ENTIRE FUNCTION RETURNS")
-	printProcesses(processes)
-	fmt.Println("--------------")
 
 	// outputs statistics
 	GenerateStatistics(currentTime, processes)
