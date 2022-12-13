@@ -95,4 +95,31 @@ func GenerateStatistics(elapsedTime int, processes []Process) {
 
 	// avg priority of starved processes
 	fmt.Println("avg priority of starved processes: ", float64(totalPriorityUncompletedProcesses)/float64(numStarved))
+
+	// avg waiting time by duration
+	fmt.Println("average waiting time by duration:")
+	sort.Slice(processes, func(i, j int) bool {
+		return processes[i].duration < processes[j].duration
+	})
+	lowestInitialDuration := processes[0].duration
+	highestInitialDuration := processes[len(processes)-1].duration
+
+	for i := lowestInitialDuration; i <= highestInitialDuration; i++ {
+		waitingTimeSum := 0
+		totalProcesses := 0
+		// finds processes with initial priority of i
+		for j := 0; j < len(processes); j++ {
+			if processes[j].duration == i {
+				waitingTimeSum += processes[j].waitingTime
+				totalProcesses += 1
+			}
+		}
+
+		if totalProcesses == 0 {
+			fmt.Printf("     priority %d: %s\n", i, "n/a")
+		} else {
+			averageWait := float64(waitingTimeSum) / float64(totalProcesses)
+			fmt.Printf("     duration %d: %.3f\n", i, averageWait)
+		}
+	}
 }
