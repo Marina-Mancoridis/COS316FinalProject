@@ -29,6 +29,11 @@ func GenerateStatistics(elapsedTime int, processes []Process) {
 			totalDurationOfUncompletedProcesses += processes[i].duration
 			totalPriorityUncompletedProcesses += processes[i].initialPriority
 		}
+
+		// for assessing round robin starvation... also comment out processesCompleted++ on line 25
+		// if processes[i].touched == true {
+		// 	processesCompleted++
+		// }
 	}
 
 	// processes completed

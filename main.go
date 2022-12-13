@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 func copyProcesses(processes []Process) []Process {
 	var newProcesses []Process
 
@@ -26,10 +28,13 @@ func copyProcesses(processes []Process) []Process {
 // algorithms, outputting statistics of how the CPU runs under each
 // algorithm
 func main() {
-	// processes := generatePriorityAgingProcesses(10)
+	// processes1 := generatePriorityAgingProcesses(100)
 	// processes := generateToyProcesses()
 	// processes := generateShortLongProcesses(100, 900)
-	processes1 := generateRandomUniformDurationProcesses(4000)
+	// processes1 := generateRandomUniformDurationProcesses(4000)
+	processes1 := generateLongInFrontShortInBack(100)
+	str, _ := testValidityOfProcesses(processes1)
+	fmt.Println(str)
 	processes2 := make([]Process, len(processes1))
 	copy(processes2, processes1)
 	processes3 := make([]Process, len(processes1))
@@ -39,10 +44,10 @@ func main() {
 	processes5 := make([]Process, len(processes1))
 	copy(processes5, processes1)
 
-	FirstComeFirstServe(processes1, 500)
-	ShortestJobFirst(processes2, 500)
-	RoundRobin(processes3, 500, 2)
-	Priority(processes4, 500)
-	PriorityWithAging(processes5, 500)
+	FirstComeFirstServe(processes1, 300)
+	ShortestJobFirst(processes2, 300)
+	RoundRobin(processes3, 300, 2)
+	// Priority(processes4, 150)
+	// PriorityWithAging(processes5, 150)
 	// MultiLevelQueue(processes, 100, 5, 7)
 }

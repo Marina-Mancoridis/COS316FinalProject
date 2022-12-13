@@ -93,6 +93,7 @@ func RoundRobin(processes []Process, totalTime int, timeQuantum int) {
 
 		// execute the next process, mark as completed, take it off the queue
 		if currentTime+processes[processId].duration <= totalTime {
+			processes[processId].touched = true
 			// if process can be executed within time quantum
 			if (processes[processId].duration - processes[processId].secondsCompleted) <= timeQuantum {
 				timeIncrement = processes[processId].duration - processes[processId].secondsCompleted

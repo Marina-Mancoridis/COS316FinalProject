@@ -18,6 +18,7 @@ type Process struct {
 	secondsCompleted int
 	isInQueue        bool
 	roundRobinID     int
+	touched          bool
 }
 
 // creates a workload of processes (manually catered, for now)
@@ -34,6 +35,7 @@ func generateToyProcesses() []Process {
 	p1.secondsCompleted = 0
 	p1.isInQueue = false
 	p1.roundRobinID = -1
+	p1.touched = false
 
 	p2 := new(Process)
 	p2.arrivalTime = 0
@@ -46,6 +48,7 @@ func generateToyProcesses() []Process {
 	p2.secondsCompleted = 0
 	p2.isInQueue = false
 	p2.roundRobinID = -1
+	p2.touched = false
 
 	p3 := new(Process)
 	p3.arrivalTime = 10
@@ -58,6 +61,7 @@ func generateToyProcesses() []Process {
 	p3.secondsCompleted = 0
 	p3.isInQueue = false
 	p3.roundRobinID = -1
+	p3.touched = false
 
 	p4 := new(Process)
 	p4.arrivalTime = 20
@@ -70,6 +74,7 @@ func generateToyProcesses() []Process {
 	p4.secondsCompleted = 0
 	p4.isInQueue = false
 	p4.roundRobinID = -1
+	p4.touched = false
 
 	processes = append(processes, *p1)
 	processes = append(processes, *p2)
@@ -95,6 +100,7 @@ func generateEqualDistributionProcesses(numberOfProcesses int) []Process {
 		p.secondsCompleted = 0
 		p.isInQueue = false
 		p.roundRobinID = -1
+		p.touched = false
 
 		processes = append(processes, *p)
 	}
@@ -107,7 +113,7 @@ func generatePriorityAgingProcesses(numberOfProcesses int) []Process {
 
 	for i := 0; i < numberOfProcesses; i++ {
 		p := new(Process)
-		p.arrivalTime = rand.Intn(10)
+		p.arrivalTime = rand.Intn(100)
 		p.duration = rand.Intn(9) + 1
 		p.waitingTime = 0
 		p.turnaroundTime = 0
@@ -118,6 +124,7 @@ func generatePriorityAgingProcesses(numberOfProcesses int) []Process {
 		p.secondsCompleted = 0
 		p.isInQueue = false
 		p.roundRobinID = -1
+		p.touched = false
 
 		processes = append(processes, *p)
 	}
@@ -130,7 +137,7 @@ func generateRandomUniformDurationProcesses(numberOfProcesses int) []Process {
 
 	for i := 0; i < numberOfProcesses; i++ {
 		p := new(Process)
-		p.arrivalTime = rand.Intn(9999) + 1
+		p.arrivalTime = rand.Intn(99) + 1
 		p.duration = rand.Intn(9) + 1
 		p.waitingTime = 0
 		p.turnaroundTime = 0
@@ -141,6 +148,7 @@ func generateRandomUniformDurationProcesses(numberOfProcesses int) []Process {
 		p.secondsCompleted = 0
 		p.isInQueue = false
 		p.roundRobinID = -1
+		p.touched = false
 
 		processes = append(processes, *p)
 	}
@@ -164,6 +172,7 @@ func generateLongInFrontShortInBack(numberOfProcesses int) []Process {
 		p.secondsCompleted = 0
 		p.isInQueue = false
 		p.roundRobinID = -1
+		p.touched = false
 
 		processes = append(processes, *p)
 	}
@@ -187,6 +196,7 @@ func generateShortLongProcesses(numberOfShortProcesses int, numberOfLongProcesse
 		p.secondsCompleted = 0
 		p.isInQueue = false
 		p.roundRobinID = -1
+		p.touched = false
 
 		processes = append(processes, *p)
 	}
@@ -204,6 +214,7 @@ func generateShortLongProcesses(numberOfShortProcesses int, numberOfLongProcesse
 		p.secondsCompleted = 0
 		p.isInQueue = false
 		p.roundRobinID = -1
+		p.touched = false
 
 		processes = append(processes, *p)
 	}
