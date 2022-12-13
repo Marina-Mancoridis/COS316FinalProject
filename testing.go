@@ -1,6 +1,9 @@
 package main
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+)
 
 // ensure processes are valid
 func testValidityOfProcesses(processes []Process) (string, error) {
@@ -40,4 +43,14 @@ func testValidityOfProcesses(processes []Process) (string, error) {
 	return success, nil
 }
 
-//
+// test correctness of algorithms on toy processes
+func TestCorrectnessOnToyProcesses() {
+	processes1 := generateToyProcesses()
+	// processes2 := make([]Process, len(processes1))
+	// copy(processes2, processes1)
+
+	FirstComeFirstServe(processes1, 10)
+	stats := GenerateStatistics(10, processes1)
+	fmt.Println(stats)
+
+}

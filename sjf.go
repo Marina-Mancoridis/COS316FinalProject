@@ -44,7 +44,7 @@ func ShortestJobFirst(processes []Process, totalTime int) {
 			}
 		}
 
-		// fmt.Println("queue supposedly updated...")
+		// fmt.Println("queue updated...")
 		// printProcesses(processes)
 		// fmt.Println("--------------")
 
@@ -97,7 +97,7 @@ func ShortestJobFirst(processes []Process, totalTime int) {
 		i++
 	}
 	// fmt.Println()
-	// fmt.Println("RIGHT BEFORE ENTIRE FUNCTION RETURNS")
+	// fmt.Println("PROCESSES RIGHT BEFORE FUNCTION RETURNS")
 	// printProcesses(processes)
 	// fmt.Println("--------------")
 

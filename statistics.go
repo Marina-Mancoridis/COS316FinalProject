@@ -5,9 +5,23 @@ import (
 	"sort"
 )
 
+// Stats object
+type Stats struct {
+	numCompleted          int
+	throughput            float64
+	avgWaitingTime        float64
+	averageTurnaroundTime float64
+	numStarved            int
+	avgDurationCompleted  float64
+	avgDurationStarved    float64
+	avgPriorityCompleted  float64
+	avgPriorityStarved    float64
+}
+
 // generates throughput, average waiting time, and average turnaround
 // statistics after a single call of a scheduling algorithm
-func GenerateStatistics(elapsedTime int, processes []Process) {
+func GenerateStatistics(elapsedTime int, processes []Process) Stats {
+	stats := new(Stats)
 	fmt.Println("STATISTICS:")
 
 	// grabbing information from pass of processes
@@ -38,19 +52,23 @@ func GenerateStatistics(elapsedTime int, processes []Process) {
 
 	// processes completed
 	fmt.Println("processes completed:                 ", processesCompleted)
+	stats.numCompleted = processesCompleted
 
 	// throughput
 	// converts processes/nanosecond to processes/second
 	throughput := float64(processesCompleted) / float64(elapsedTime)
 	fmt.Println("throughput (processes/s):            ", throughput)
+	stats.throughput = throughput
 
 	// average waiting time per process, in seconds/process
 	var averageWaitingTime = float64(totalWaitingTime) / float64(processesCompleted)
 	fmt.Println("average waiting time (s/process):    ", averageWaitingTime)
+	stats.avgWaitingTime = averageWaitingTime
 
 	// average turnaround time per process, in seconds/process
 	var averageTurnaroundTime = float64(totalTurnaroundTime) / float64(processesCompleted)
 	fmt.Println("average turnaround time (s/process): ", averageTurnaroundTime)
+	stats.averageTurnaroundTime = averageTurnaroundTime
 
 	// average waiting time per process with each initial priority
 	fmt.Println("average waiting time by priority:")
@@ -83,18 +101,23 @@ func GenerateStatistics(elapsedTime int, processes []Process) {
 	// number of starved resources
 	numStarved := len(processes) - processesCompleted
 	fmt.Println("number of starved processes: ", numStarved)
+	stats.numStarved = numStarved
 
 	// avg duration of completed processes
 	fmt.Println("avg duration of completed processes: ", float64(totalDurationOfCompletedProcesses)/float64(processesCompleted))
+	stats.avgDurationCompleted = float64(totalDurationOfCompletedProcesses) / float64(processesCompleted)
 
 	// avg duration of starved processes
 	fmt.Println("avg duration of starved processes: ", float64(totalDurationOfUncompletedProcesses)/float64(numStarved))
+	stats.avgDurationStarved = float64(totalDurationOfUncompletedProcesses) / float64(numStarved)
 
 	// avg priority of completed processes
 	fmt.Println("avg priority of completed processes: ", float64(totalPriorityCompletedProcesses)/float64(processesCompleted))
+	stats.avgPriorityCompleted = float64(totalPriorityCompletedProcesses) / float64(processesCompleted)
 
 	// avg priority of starved processes
 	fmt.Println("avg priority of starved processes: ", float64(totalPriorityUncompletedProcesses)/float64(numStarved))
+	stats.avgPriorityStarved = float64(totalPriorityUncompletedProcesses) / float64(numStarved)
 
 	// avg waiting time by duration
 	fmt.Println("average waiting time by duration:")
@@ -122,4 +145,6 @@ func GenerateStatistics(elapsedTime int, processes []Process) {
 			fmt.Printf("     duration %d: %.3f\n", i, averageWait)
 		}
 	}
+
+	return *stats
 }
