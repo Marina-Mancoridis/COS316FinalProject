@@ -126,3 +126,32 @@ func TestCorrectnessOnToyProcesses(t *testing.T) {
 	}
 
 }
+
+func TestCompareSchedulingAlgorithms(t *testing.T) {
+	// Test FCFS against other algorithms
+
+	// Compare FCFS and SJF on workload with long processes in front, short in back
+	processes1 := generateLongInFrontShortInBack(1000)
+	processes2 := make([]Process, len(processes1))
+	copy(processes2, processes1)
+	FirstComeFirstServe(processes1, 500)
+	stats1 := GenerateStatistics(500, processes1)
+	ShortestJobFirst(processes2, 500)
+	stats2 := GenerateStatistics(500, processes2)
+
+	// we expect FCFS to starve more processes
+	if stats1.numStarved < stats2.numStarved {
+		panic("FCFS starved fewer processes than SJF for a workload with long processes in front, short in back")
+	}
+
+	// we expect the average duration of FCFS completed processes to be greater than SJF
+	if stats1.avgDurationCompleted < stats2.avgDurationCompleted {
+		panic("FCFS had lower average duration than SJF for a workload with long processes in front, short in back")
+	}
+
+	// we expect avg waiting time of FCFS to be greater than SJF
+	if stats1.avgWaitingTime < stats2.avgWaitingTime {
+		panic("FCFS had lower average waiting time than SJF for a workload with long processes in front, short in back")
+	}
+
+}

@@ -203,8 +203,8 @@ func generateLongInFrontShortInBack(numberOfProcesses int) []Process {
 
 	for i := 0; i < numberOfProcesses; i++ {
 		p := new(Process)
-		p.arrivalTime = i          // rand.Intn(99) + 1
-		p.duration = 10 - (i / 10) // rand.Intn(9) + 1
+		p.arrivalTime = i                            // rand.Intn(99) + 1
+		p.duration = numberOfProcesses/10 - (i / 10) // rand.Intn(9) + 1
 		p.waitingTime = 0
 		p.turnaroundTime = 0
 		p.completed = false
