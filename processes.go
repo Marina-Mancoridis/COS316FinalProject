@@ -155,12 +155,36 @@ func generatePriorityAgingProcesses(numberOfProcesses int) []Process {
 
 	for i := 0; i < numberOfProcesses; i++ {
 		p := new(Process)
-		p.arrivalTime = rand.Intn(10)
-		p.duration = rand.Intn(5) + 1
+		p.arrivalTime = rand.Intn(100)
+		p.duration = rand.Intn(10) + 1
 		p.waitingTime = 0
 		p.turnaroundTime = 0
 		p.completed = false
 		prior := rand.Intn(10)
+		p.priority = prior
+		p.initialPriority = prior
+		p.secondsCompleted = 0
+		p.isInQueue = false
+		p.roundRobinID = -1
+		p.touched = false
+
+		processes = append(processes, *p)
+	}
+
+	return processes
+}
+
+func generateThreePriorityProcesses(numberOfProcesses int) []Process {
+	var processes []Process
+
+	for i := 0; i < numberOfProcesses; i++ {
+		p := new(Process)
+		p.arrivalTime = rand.Intn(100)
+		p.duration = rand.Intn(10) + 1
+		p.waitingTime = 0
+		p.turnaroundTime = 0
+		p.completed = false
+		prior := rand.Intn(3)
 		p.priority = prior
 		p.initialPriority = prior
 		p.secondsCompleted = 0

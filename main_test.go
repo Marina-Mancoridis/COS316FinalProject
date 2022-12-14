@@ -128,8 +128,6 @@ func TestCorrectnessOnToyProcesses(t *testing.T) {
 }
 
 func TestCompareSchedulingAlgorithms(t *testing.T) {
-	// Test FCFS against other algorithms
-
 	// Compare FCFS and SJF on workload with long processes in front, short in back
 	processes1 := generateLongInFrontShortInBack(1000)
 	processes2 := make([]Process, len(processes1))
@@ -152,6 +150,130 @@ func TestCompareSchedulingAlgorithms(t *testing.T) {
 	// we expect avg waiting time of FCFS to be greater than SJF
 	if stats1.avgWaitingTime < stats2.avgWaitingTime {
 		panic("FCFS had lower average waiting time than SJF for a workload with long processes in front, short in back")
+	}
+
+	// Compare RR and SJF on a workload of random uniform duration processes
+	processes1 = generateRandomUniformDurationProcesses(1000)
+	processes2 = make([]Process, len(processes1))
+	copy(processes2, processes1)
+	RoundRobin(processes1, 500, 3)
+	stats1 = GenerateStatistics(500, processes1)
+	ShortestJobFirst(processes2, 500)
+	stats2 = GenerateStatistics(500, processes2)
+
+	// we expect RR to starve fewer processes
+	if stats1.numStarved < stats2.numStarved {
+		panic("RR starves more processes than sjf on a random uniform duration workload")
+	}
+
+	// we expect RR to have a higher avg waiting time than sjf
+	if stats1.avgWaitingTime < stats2.avgWaitingTime {
+		panic("RR has a lower average waiting time than SJF on a random uniform duration workload")
+	}
+
+	// we expect RR to complete fewer processes than SJF
+	if stats1.numCompleted > stats2.numCompleted {
+		panic("RR completes more processes than SJF on a random uniform duration workload")
+	}
+
+	// Compare Priority and FCFS on 1000 processes w/ priorities 1-10, arrival 1-100, duration 1-10
+	processes1 = generatePriorityAgingProcesses(1000)
+	processes2 = make([]Process, len(processes1))
+	copy(processes2, processes1)
+	Priority(processes1, 500)
+	stats1 = GenerateStatistics(500, processes1)
+	FirstComeFirstServe(processes2, 500)
+	stats2 = GenerateStatistics(500, processes2)
+
+	// we expect priority to have lower average priority of completed processes
+	if stats1.avgPriorityCompleted > stats2.avgPriorityCompleted {
+		panic("Priority has higher avg priority of completed processes than fcfs")
+	}
+
+	// we expect priority to have a higher avg priority for starved processes
+	if stats1.avgPriorityStarved < stats2.avgPriorityStarved {
+		panic("Priority has lower avg priority of starved processes than fcfs")
+	}
+
+	// Compare Priority and FCFS on 1000 processes w/ priorities 1-10, arrival 1-100, duration 1-10
+	processes1 = generatePriorityAgingProcesses(1000)
+	processes2 = make([]Process, len(processes1))
+	copy(processes2, processes1)
+	PriorityWithAging(processes1, 500)
+	stats1 = GenerateStatistics(500, processes1)
+	FirstComeFirstServe(processes2, 500)
+	stats2 = GenerateStatistics(500, processes2)
+
+	// we expect priority to have lower average priority of completed processes
+	if stats1.avgPriorityCompleted > stats2.avgPriorityCompleted {
+		panic("PriorityWithAging has higher avg priority of completed processes than fcfs")
+	}
+
+	// we expect priority to have a higher avg priority for starved processes
+	if stats1.avgPriorityStarved < stats2.avgPriorityStarved {
+		panic("PriorityWithAging has lower avg priority of starved processes than fcfs")
+	}
+
+	// Compare Priority and Priority with Aging on 1000 processes w/ priorities 1-10,
+	// arrival 1-100, duration 1-10
+	processes1 = generatePriorityAgingProcesses(1000)
+	processes2 = make([]Process, len(processes1))
+	copy(processes2, processes1)
+	Priority(processes1, 500)
+	stats1 = GenerateStatistics(500, processes1)
+	PriorityWithAging(processes2, 500)
+	stats2 = GenerateStatistics(500, processes2)
+
+	// we expect priority to have lower avg priority of completed processes
+	if stats1.avgPriorityCompleted > stats2.avgPriorityCompleted {
+		panic("Priority has higher avg priority of completed processes than priorityWithAging")
+	}
+
+	// Compare MLQ and FCFS on 1000 processes w/ priorities 1-10, arrival 1-100, duration 1-10
+	processes1 = generatePriorityAgingProcesses(1000)
+	processes2 = make([]Process, len(processes1))
+	copy(processes2, processes1)
+	MultiLevelQueue(processes1, 500, 4, 7)
+	stats1 = GenerateStatistics(500, processes1)
+	FirstComeFirstServe(processes2, 500)
+	stats2 = GenerateStatistics(500, processes2)
+
+	// we expect priority to have lower average priority of completed processes
+	if stats1.avgPriorityCompleted > stats2.avgPriorityCompleted {
+		panic("mlq has higher avg priority of completed processes than fcfs")
+	}
+
+	// we expect priority to have a higher avg priority for starved processes
+	if stats1.avgPriorityStarved < stats2.avgPriorityStarved {
+		panic("mlq has lower avg priority of starved processes than fcfs")
+	}
+
+	// Compare MLQ and Priority on workload with only 3 priorities
+	processes1 = generateThreePriorityProcesses(1000)
+	processes2 = make([]Process, len(processes1))
+
+	for i := 0; i < 100; i++ {
+		fmt.Print(processes1[i].priority)
+	}
+	copy(processes2, processes1)
+	MultiLevelQueue(processes1, 500, 1, 2)
+	stats1 = GenerateStatistics(500, processes1)
+	Priority(processes2, 500)
+	stats2 = GenerateStatistics(500, processes2)
+
+	// we expect MLQ to have a shorter waiting time (since MLQ is optimizing for priority AND duration)
+	if stats1.avgWaitingTime > stats2.avgWaitingTime {
+		panic("MLQ has longer waiting time than Priority with 3-priority workload")
+	}
+
+	// we expect MLQ to have a higher number of completed processes than priority
+	if stats1.numCompleted < stats2.numCompleted {
+		panic("MLQ has lower number of completed processes than priority for 3-priority workload")
+	}
+
+	// we expect MLQ to have a lower average priority completed since it will complete more
+	if stats1.avgPriorityCompleted > stats2.avgPriorityCompleted {
+		panic("MLQ has higher avg priority of completed processes than priority for 3-priority workload")
 	}
 
 }

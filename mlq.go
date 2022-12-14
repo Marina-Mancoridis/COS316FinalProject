@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"math"
 	"sort"
 )
@@ -13,7 +12,7 @@ import (
 // high priority = [highPriorityCutoff, inf)
 func MultiLevelQueue(processes []Process, totalTime int,
 	mediumPriorityCutoff int, highPriorityCutoff int) {
-	fmt.Println("\n\n                         Running Strict Multi Level Queue Scheduling Algorithm...")
+	// fmt.Println("\n\n                         Running Strict Multi Level Queue Scheduling Algorithm...")
 
 	// sorts the list of processes by arrival time
 	sort.Slice(processes, func(i, j int) bool {
@@ -29,8 +28,8 @@ func MultiLevelQueue(processes []Process, totalTime int,
 	numProcessesComplete := 0
 
 	for currentTime < totalTime {
-		fmt.Println("---------------------------------------------------")
-		fmt.Println("AT TIME STEP ", currentTime)
+		// fmt.Println("---------------------------------------------------")
+		// fmt.Println("AT TIME STEP ", currentTime)
 
 		// add to queue for all processes
 		for j := 0; j < len(processes); j++ {
@@ -48,9 +47,9 @@ func MultiLevelQueue(processes []Process, totalTime int,
 			}
 		}
 
-		fmt.Println("all queues supposedly updated...")
-		printProcesses(processes)
-		fmt.Println("--------------")
+		// fmt.Println("all queues supposedly updated...")
+		// printProcesses(processes)
+		// fmt.Println("--------------")
 
 		// find the next process to execute, if exists in low queue
 		processId := -1
@@ -99,7 +98,7 @@ func MultiLevelQueue(processes []Process, totalTime int,
 			}
 		}
 
-		fmt.Println("next process to execute has id: ", processId)
+		// fmt.Println("next process to execute has id: ", processId)
 
 		// return if there are no more processes to execute
 		if processId == -1 {
@@ -135,10 +134,10 @@ func MultiLevelQueue(processes []Process, totalTime int,
 		}
 		i++
 	}
-	fmt.Println()
-	fmt.Println("RIGHT BEFORE ENTIRE FUNCTION RETURNS")
-	printProcesses(processes)
-	fmt.Println("--------------")
+	// fmt.Println()
+	// fmt.Println("RIGHT BEFORE ENTIRE FUNCTION RETURNS")
+	// printProcesses(processes)
+	// fmt.Println("--------------")
 
 	// outputs statistics
 	GenerateStatistics(currentTime, processes)
