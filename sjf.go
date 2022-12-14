@@ -102,5 +102,5 @@ func ShortestJobFirst(processes []Process, totalTime int) {
 	// fmt.Println("--------------")
 
 	// outputs statistics
-	GenerateStatistics(currentTime, processes)
+	// GenerateStatistics(currentTime, processes)
 }

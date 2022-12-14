@@ -24,6 +24,19 @@ type Process struct {
 // creates a workload of processes (manually catered, for now)
 func generateToyProcesses() []Process {
 	var processes []Process
+	p0 := new(Process)
+	p0.arrivalTime = 0
+	p0.duration = 8
+	p0.waitingTime = 0
+	p0.turnaroundTime = 0
+	p0.completed = false
+	p0.priority = 4
+	p0.initialPriority = 4
+	p0.secondsCompleted = 0
+	p0.isInQueue = false
+	p0.roundRobinID = -1
+	p0.touched = false
+
 	p1 := new(Process)
 	p1.arrivalTime = 0
 	p1.duration = 3
@@ -64,7 +77,7 @@ func generateToyProcesses() []Process {
 	p3.touched = false
 
 	p4 := new(Process)
-	p4.arrivalTime = 20
+	p4.arrivalTime = 16
 	p4.duration = 6
 	p4.waitingTime = 0
 	p4.turnaroundTime = 0
@@ -76,10 +89,39 @@ func generateToyProcesses() []Process {
 	p4.roundRobinID = -1
 	p4.touched = false
 
+	p5 := new(Process)
+	p5.arrivalTime = 12
+	p5.duration = 3
+	p5.waitingTime = 0
+	p5.turnaroundTime = 0
+	p5.completed = false
+	p5.priority = 4
+	p5.initialPriority = 4
+	p5.secondsCompleted = 0
+	p5.isInQueue = false
+	p5.roundRobinID = -1
+	p5.touched = false
+
+	p6 := new(Process)
+	p6.arrivalTime = 12
+	p6.duration = 7
+	p6.waitingTime = 0
+	p6.turnaroundTime = 0
+	p6.completed = false
+	p6.priority = 1
+	p6.initialPriority = 4
+	p6.secondsCompleted = 0
+	p6.isInQueue = false
+	p6.roundRobinID = -1
+	p6.touched = false
+
+	processes = append(processes, *p0)
 	processes = append(processes, *p1)
 	processes = append(processes, *p2)
 	processes = append(processes, *p3)
 	processes = append(processes, *p4)
+	processes = append(processes, *p5)
+	processes = append(processes, *p6)
 
 	return processes
 }

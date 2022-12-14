@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 func copyProcesses(processes []Process) []Process {
 	var newProcesses []Process
 
@@ -42,7 +44,8 @@ func main() {
 	// processes5 := make([]Process, len(processes1))
 	// copy(processes5, processes1)
 
-	TestCorrectnessOnToyProcesses()
+	str, _ := TestCorrectnessOnToyProcesses()
+	fmt.Println(str)
 
 	// FirstComeFirstServe(processes1, 20)
 	// str, _ = testValidityOfProcesses(processes1)
