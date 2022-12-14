@@ -1,46 +1,44 @@
 package main
 
 import (
-	"errors"
 	"fmt"
+	"testing"
 )
 
 // ensure processes are valid
-func testValidityOfProcesses(processes []Process) (string, error) {
+func TestValidityOfProcesses(t *testing.T) {
+	processes := generateEqualDistributionProcesses(1000)
 	for i := 0; i < len(processes); i++ {
 		p := processes[i]
 		if p.arrivalTime < 0 {
-			return "TESTING ========> TEST FAILED", errors.New("negative arrivalTime")
+			panic("negative arrivalTime")
 		}
 
 		if p.duration < 0 {
-			return "TESTING ========> TEST FAILED", errors.New("negative duration")
+			panic("negative duration")
 		}
 
 		if p.priority < 0 {
-			return "TESTING ========> TEST FAILED", errors.New("negative priority")
+			panic("negative priority")
 		}
 
 		if p.secondsCompleted < 0 {
-			return "TESTING ========> TEST FAILED", errors.New("negative secondsCompleted")
+			panic("negative secondsCompleted")
 		}
 
 		if p.waitingTime < 0 {
-			return "TESTING ========> TEST FAILED", errors.New("negative waitingTime")
+			panic("negative waitingTime")
 		}
 
 		if p.turnaroundTime < 0 {
-			return "TESTING ========> TEST FAILED", errors.New("negative turnaroundTime")
+			panic("negative turnaroundTime")
 		}
 
 		if p.initialPriority < p.priority {
-			return "TESTING ========> TEST FAILED", errors.New("priority increased as a result of algorithm")
+			panic("priority increased as a result of algorithm")
 		}
 
 	}
-
-	success := "TESTING ========> processes are valid"
-	return success, nil
 }
 
 // test if two values are close to one another
@@ -53,7 +51,7 @@ func closeTo(val1 float64, val2 float64) bool {
 }
 
 // test correctness of algorithms on toy processes
-func TestCorrectnessOnToyProcesses() (string, error) {
+func TestCorrectnessOnToyProcesses(t *testing.T) {
 	processes1 := generateToyProcesses()
 	processes2 := make([]Process, len(processes1))
 	copy(processes2, processes1)
@@ -73,7 +71,7 @@ func TestCorrectnessOnToyProcesses() (string, error) {
 	if stats.numCompleted != 4 || stats.throughput != 0.2 || stats.avgWaitingTime != 2.75 ||
 		stats.averageTurnaroundTime != 7 || stats.numStarved != 3 || stats.avgDurationCompleted != 4.25 ||
 		stats.avgDurationStarved != 6 || stats.avgPriorityCompleted != 3.5 || stats.avgPriorityStarved != 4 {
-		return "TESTING ========> TEST FAILED", errors.New("shortest job first does not work for toy processes")
+		panic("shortest job first does not work for toy processes")
 	}
 
 	// test first come first serve
@@ -83,8 +81,7 @@ func TestCorrectnessOnToyProcesses() (string, error) {
 	if stats.numCompleted != 4 || stats.throughput != 0.2 || stats.avgWaitingTime != 5.75 ||
 		stats.averageTurnaroundTime != 10.5 || stats.numStarved != 3 || stats.avgDurationCompleted != 4.75 ||
 		!closeTo(stats.avgDurationStarved, 5.333333333333333) || stats.avgPriorityCompleted != 3.75 || !closeTo(stats.avgPriorityStarved, 3.6666666666666665) {
-		return "TESTING ========> TEST FAILED123", errors.New("shortest job first does not work for toy processes")
-
+		panic("fcfs does not work for toy processes")
 	}
 
 	// test round robin
@@ -94,7 +91,7 @@ func TestCorrectnessOnToyProcesses() (string, error) {
 	if stats.numCompleted != 4 || stats.throughput != 0.2 || stats.avgWaitingTime != 6.5 ||
 		stats.averageTurnaroundTime != 9.25 || stats.numStarved != 3 || stats.avgDurationCompleted != 4.25 ||
 		stats.avgDurationStarved != 6 || stats.avgPriorityCompleted != 3.5 || stats.avgPriorityStarved != 4 {
-		return "TESTING ========> TEST FAILED123", errors.New("shortest job first does not work for toy processes")
+		panic("round robin does not work for toy processes")
 
 	}
 
@@ -105,7 +102,7 @@ func TestCorrectnessOnToyProcesses() (string, error) {
 	if stats.numCompleted != 3 || stats.throughput != 0.15 || !closeTo(stats.avgWaitingTime, 4.666666666666667) ||
 		!closeTo(stats.averageTurnaroundTime, 9.333333333333334) || stats.numStarved != 4 || !closeTo(stats.avgDurationCompleted, 4.666666666666667) ||
 		stats.avgDurationStarved != 5.25 || !closeTo(stats.avgPriorityCompleted, 3.3333333333333335) || stats.avgPriorityStarved != 4 {
-		return "TESTING ========> TEST FAILED123", errors.New("shortest job first does not work for toy processes")
+		panic("priority does not work for toy processes")
 	}
 
 	// test priority with aging
@@ -115,7 +112,7 @@ func TestCorrectnessOnToyProcesses() (string, error) {
 	if stats.numCompleted != 3 || stats.throughput != 0.15 || !closeTo(stats.avgWaitingTime, 4.666666666666667) ||
 		!closeTo(stats.averageTurnaroundTime, 9.333333333333334) || stats.numStarved != 4 || !closeTo(stats.avgDurationCompleted, 4.666666666666667) ||
 		stats.avgDurationStarved != 5.25 || !closeTo(stats.avgPriorityCompleted, 3.3333333333333335) || stats.avgPriorityStarved != 4 {
-		return "TESTING ========> TEST FAILED123", errors.New("shortest job first does not work for toy processes")
+		panic("priorityWithAging does not work for toy processes")
 	}
 
 	// test mlq
@@ -125,9 +122,7 @@ func TestCorrectnessOnToyProcesses() (string, error) {
 	if stats.numCompleted != 4 || stats.throughput != 0.2 || stats.avgWaitingTime != 2.75 ||
 		stats.averageTurnaroundTime != 7 || stats.numStarved != 3 || stats.avgDurationCompleted != 4.25 ||
 		stats.avgDurationStarved != 6 || stats.avgPriorityCompleted != 3.5 || stats.avgPriorityStarved != 4 {
-		return "TESTING ========> TEST FAILED123", errors.New("shortest job first does not work for toy processes")
+		panic("mlq does not work for toy processes")
 	}
 
-	success := "TESTING ========> all algorithms work for toy processes"
-	return success, nil
 }

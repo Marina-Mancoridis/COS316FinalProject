@@ -1,7 +1,5 @@
 package main
 
-import "fmt"
-
 func copyProcesses(processes []Process) []Process {
 	var newProcesses []Process
 
@@ -30,10 +28,10 @@ func copyProcesses(processes []Process) []Process {
 func main() {
 	// processes1 := generatePriorityAgingProcesses(5)
 	// processes1 := generateToyProcesses()
+
 	// processes := generateShortLongProcesses(100, 900)
 	// processes1 := generateRandomUniformDurationProcesses(4000)
 	// processes1 := generateLongInFrontShortInBack(100)
-	// str, _ := testValidityOfProcesses(processes1)
 	// fmt.Println(str)
 	// processes2 := make([]Process, len(processes1))
 	// copy(processes2, processes1)
@@ -43,9 +41,6 @@ func main() {
 	// copy(processes4, processes1)
 	// processes5 := make([]Process, len(processes1))
 	// copy(processes5, processes1)
-
-	str, _ := TestCorrectnessOnToyProcesses()
-	fmt.Println(str)
 
 	// FirstComeFirstServe(processes1, 20)
 	// str, _ = testValidityOfProcesses(processes1)
